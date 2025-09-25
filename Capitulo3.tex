@@ -1,0 +1,44 @@
+\section{Introducción}
+
+La ciencia de datos moderna depende de la integración de sistemas de software especializados. Este trabajo aborda la creación de un puente de comunicación, un \textit{middleware}, para conectar dos plataformas tecnológicas clave del CINVESTAV, permitiendo así la creación de una malla de servicios unificada para el análisis avanzado de datos.
+
+\subsection{Definición del problema y justificación del proyecto}
+
+La evolución de la ciencia de datos se basa en la integración de un ecosistema tecnológico diverso que incluye \textit{big data}, cómputo en la nube y aprendizaje profundo. Sin embargo, esta especialización a menudo conduce a la creación de ``silos de datos y procesamiento'', donde sistemas de software potentes, diseñados para tareas específicas, operan de forma aislada. Esta falta de comunicación impide la colaboración y limita el potencial sinérgico que podría surgir de su integración, convirtiéndose en un desafío técnico significativo que requiere soluciones para abstraer la complejidad y facilitar un flujo de información cohesivo.
+
+En el Centro de Investigación y de Estudios Avanzados (CINVESTAV) Unidad Tamaulipas, este desafío se manifiesta en dos plataformas clave. Por un lado, \textit{Nez}, un \textit{framework} para el procesamiento de datos a gran escala que implementa el innovador modelo arquitectónico \textit{PuzzleMesh}, validado en dominios como el análisis de tomografías y el procesamiento de imágenes satelitales. Por otro lado, \textit{Jub}, un concentrador y distribuidor de datos especializado en el monitoreo de fenómenos atmosféricos. Un tercer componente, \textit{MictlanX}, gestiona las operaciones de almacenamiento en el ecosistema.  
+
+El problema central es que, a pesar de sus capacidades complementarias, \textit{Nez} y \textit{Jub} carecen de un mecanismo de comunicación nativo y estandarizado. Esta ausencia de interoperabilidad representa una barrera significativa: los usuarios de \textit{Jub} no pueden aprovechar las potentes capacidades de análisis y aprendizaje profundo de \textit{Nez}, y este último no puede ser alimentado de forma automatizada con los flujos de datos gestionados por \textit{Jub}. Este aislamiento tecnológico impide la formación de una malla de servicios de ciencia de datos cohesiva y eficiente.
+
+La justificación de este proyecto reside en la necesidad de romper estos silos. El desarrollo de un \textit{middleware} como puente de comunicación estandarizado permitirá la integración transparente de ambas plataformas, desbloqueando nuevas posibilidades de investigación al combinar el análisis de datos atmosféricos con el procesamiento avanzado de imágenes. Este trabajo es un paso fundamental hacia la creación de una malla de servicios unificada, escalable y eficiente, maximizando el valor de los activos tecnológicos existentes en la institución.
+
+\subsection{Objetivo General}
+
+Diseñar e implementar un \textit{middleware} de acoplamiento ligero que permita la interoperabilidad entre la plataforma \textit{Nez} y el concentrador de servicios \textit{Jub}, habilitando la creación de una malla de servicios de ciencia de datos y aprendizaje profundo.  
+
+\subsection{Objetivos Particulares}
+
+\begin{itemize}
+    \item Diseñar la arquitectura del \textit{middleware} para permitir la comunicación eficiente entre las plataformas \textit{Nez} y \textit{Jub}.  
+    \item Implementar el \textit{middleware} para lograr un acoplamiento ligero que habilite el intercambio de datos y procesos en tiempo real.  
+    \item Integrar servicios de procesamiento distribuido de datos e imágenes mediante algoritmos de aprendizaje profundo.  
+    \item Mejorar las interfaces gráficas de usuario existentes para facilitar la gestión y visualización de los datos procesados.  
+    \item Elaborar la documentación técnica y los manuales de usuario del sistema para garantizar su correcto uso y mantenimiento futuro.  
+\end{itemize}
+
+\subsection{Alcances y limitaciones del Proyecto}
+
+El alcance de este proyecto se centra en la entrega de un prototipo funcional del \textit{middleware} de interoperabilidad. Este prototipo será capaz de recibir solicitudes de \textit{Jub}, orquestar la ejecución de procesos en \textit{Nez} y gestionar el flujo de resultados. El proyecto incluye la validación de la solución a través de un caso de uso específico de procesamiento de imágenes, así como mejoras a la interfaz de usuario de \textit{Jub} para integrar esta nueva funcionalidad.
+
+El proyecto presenta las siguientes limitaciones:
+
+\begin{itemize}
+    \item El prototipo se valida con un conjunto limitado de casos de uso, no abarcando la totalidad de las capacidades de \textit{Nez} y \textit{Jub}.  
+    \item El manejo de errores se limita a la notificación de fallos, sin implementar mecanismos avanzados de reintentos automáticos o \textit{circuit breaking}.  
+    \item La solución no incluye una integración completa con herramientas de monitoreo y observabilidad de nivel de producción como \textit{Prometheus} o \textit{Grafana}.  
+    \item El modelo de consulta de estado de los trabajos de procesamiento se basa en sondeo (\textit{polling}) por parte del cliente, en lugar de un sistema de notificaciones proactivas (\textit{webhooks}).  
+\end{itemize}
+
+\subsection{Organización del Documento de Tesina}
+
+Este documento se organiza en seis capítulos para presentar de manera clara y estructurada el desarrollo del proyecto. El Capítulo 2 establece el Marco Teórico, donde se definen conceptos fundamentales como mallas de servicios, \textit{middleware} e interoperabilidad, y se describen las tecnologías involucradas, incluyendo el modelo \textit{PuzzleMesh}. El Capítulo 3 se dedica al Diseño Arquitectónico del \textit{middleware}, detallando los requisitos, las decisiones de diseño como la elección de una API REST, y la especificación de la interfaz. El Capítulo 4 describe la Implementación del prototipo, abarcando la selección del \textit{stack} tecnológico, la estructura del código y las estrategias de contenerización con \textit{Docker}. En el Capítulo 5 se presentan las Pruebas y Validación, donde se detalla el escenario de prueba, los resultados de las pruebas de integración y el análisis de rendimiento. Finalmente, el Capítulo 6 expone las Conclusiones y el Trabajo Futuro, resumiendo las contribuciones del proyecto y delineando posibles líneas de investigación y desarrollo.

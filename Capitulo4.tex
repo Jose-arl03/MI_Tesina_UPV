@@ -1,0 +1,37 @@
+\section{Marco Teórico}
+Este capítulo establece el marco conceptual y tecnológico sobre el cual se fundamenta el proyecto. Se definen los principios de arquitecturas de software modernas, se formaliza el modelo PuzzleMesh, se introduce el rol del middleware como catalizador de la interoperabilidad y se describen las plataformas tecnológicas involucradas.
+
+\subsection{Arquitecturas Orientadas a Microservicios y Mallas de Servicios (Service Mesh)}
+Las arquitecturas de microservicios estructuran una aplicación como una colección de servicios pequeños, autónomos y débilmente acoplados. Para gestionar la complejidad en la comunicación entre estos servicios, ha surgido el concepto de Malla de Servicios (Service Mesh). Una malla de servicios es una capa de infraestructura de software dedicada que facilita la comunicación entre microservicios en una arquitectura distribuida. Actúa como un intermediario que gestiona el tráfico de red, proporcionando funcionalidades críticas como el descubrimiento de servicios, el balanceo de carga, la encriptación, la observabilidad y la resiliencia. Su arquitectura se compone de un \textbf{Plano de Datos}, formado por proxies ligeros (sidecars) que interceptan el tráfico, y un \textbf{Plano de Control}, que administra y configura dichos proxies para aplicar políticas de enrutamiento y seguridad.
+
+\subsection{El Modelo Conceptual de PuzzleMesh}
+El modelo PuzzleMesh es un marco formal para construir estructuras de procesamiento agnósticas a la infraestructura, utilizando una metáfora de rompecabezas. Este modelo se alinea con los principios de las mallas de servicios al promover la modularidad y la gestión centralizada de componentes reutilizables.  
+
+\subsubsection{La Pieza de Software (P): Unidad Fundamental de Procesamiento}
+La unidad básica es la Pieza de Software (P), un artefacto autocontenido que encapsula una aplicación con todos sus componentes necesarios para su despliegue y ejecución. Una pieza funciona como una \enquote{caja negra} con capas definidas para el acceso, interfaces de entrada/salida (E/S), la aplicación, metadatos y dependencias.  
+
+\subsubsection{El Rompecabezas (R): Composición de Flujos de Trabajo}
+Un Rompecabezas (R) es una estructura de procesamiento creada al unir un conjunto de Piezas. El orden de ejecución y el flujo de datos se definen mediante un \textbf{Grafo Acíclico Dirigido (DAG)}, donde los nodos son las piezas y los vértices representan las dependencias de datos entre ellas. Un rompecabezas representa un flujo de trabajo completo, como un pipeline de procesamiento de datos.  
+
+\subsubsection{El Metarompecabezas ($\Omega$): Habilitando Flujos de Datos Inter-Sistemas}
+PuzzleMesh introduce el concepto de Metarompecabezas ($\Omega$) al encadenar múltiples rompecabezas. Esto permite la creación de flujos de datos complejos que pueden abarcar diferentes departamentos o incluso distintas organizaciones (flujos interinstitucionales).  
+
+\subsubsection{La Malla de Servicios ($\Psi$) en PuzzleMesh}
+Finalmente, todas las Piezas, Rompecabezas y Metarompecabezas se incorporan en una Malla de Servicios ($\Psi$). En este contexto, la malla actúa como un repositorio o catálogo centralizado desde el cual las organizaciones pueden seleccionar, componer y reutilizar estos bloques de construcción para crear nuevos servicios.  
+
+\subsection{Middleware como Catalizador de la Interoperabilidad en Sistemas Distribuidos}
+El objetivo central de este proyecto es lograr la interoperabilidad entre Nez y Jub, meta que se alcanza a través de un middleware. El middleware es una capa de software que se sitúa entre diferentes aplicaciones, funcionando como un puente o una \enquote{capa de traducción oculta} para facilitar su comunicación y el intercambio de datos. Su función es abstraer la complejidad de la comunicación en un entorno distribuido.
+
+La interoperabilidad es la capacidad de dos o más sistemas de intercambiar información y utilizarla de manera efectiva. Se distinguen varios niveles, desde el \textbf{fundacional} (intercambio básico de datos) hasta el \textbf{semántico} (comprensión compartida del significado de los datos). El middleware es el mecanismo técnico que permite alcanzar la interoperabilidad, proporcionando servicios estandarizados como la transformación de datos y el enrutamiento de mensajes.
+
+\subsection{Plataformas Involucradas}
+El ecosistema del proyecto se compone de tres plataformas desarrolladas en el \textbf{CINVESTAV Tamaulipas}:  
+
+\begin{itemize}
+    \item \textbf{Nez:} Es el framework para el procesamiento de datos a gran escala que implementa el modelo conceptual de PuzzleMesh. Ha sido utilizado con éxito en dominios como el análisis de imágenes de tomografía y la observación de la Tierra.  
+    \item \textbf{Jub:} Es un concentrador y distribuidor de datos diseñado para el monitoreo de fenómenos atmosféricos, actuando como un gestor de datos y punto de acceso para servicios de ciencia de datos.  
+    \item \textbf{MictlanX:} Es la plataforma designada para gestionar las operaciones de almacenamiento dentro del ecosistema integrado, manejando la persistencia de los datos que fluyen entre Jub y Nez.  
+\end{itemize}
+
+\subsection{Aprendizaje Profundo como Servicio en el Procesamiento de Imágenes y Señales}
+La motivación final para integrar estas plataformas es habilitar el uso de algoritmos avanzados de Aprendizaje Profundo (\textit{Deep Learning}). Este subcampo del aprendizaje automático utiliza redes neuronales con múltiples capas para aprender representaciones de datos con altos niveles de abstracción. Esta tecnología es altamente eficaz en el reconocimiento de patrones complejos, especialmente en el procesamiento de imágenes y señales. La integración de Nez y Jub a través del middleware permitirá ofrecer estas capacidades como un servicio (\textit{Deep Learning as a Service -- DLaaS}), donde los usuarios de Jub pueden solicitar análisis complejos que se ejecutarán en la infraestructura de alto rendimiento de Nez.
