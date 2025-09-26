@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.25)  25 SEP 2025 11:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.9.25)  26 SEP 2025 13:47
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1566,12 +1566,12 @@ LaTeX Font Info:    Trying to load font information for U+msb on input line 172
 (C:\Users\jose_\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-<UTYP.png, id=96, 301.125pt x 156.585pt>
+<UTYP.png, id=100, 301.125pt x 156.585pt>
 File: UTYP.png Graphic file (type png)
 <use UTYP.png>
 Package pdftex.def Info: UTYP.png  used on input line 173.
 (pdftex.def)             Requested size: 123.11743pt x 64.01869pt.
-<LogoUPV_2023.png, id=98, 438.9198pt x 166.7028pt>
+<LogoUPV_2023.png, id=102, 438.9198pt x 166.7028pt>
 File: LogoUPV_2023.png Graphic file (type png)
 <use LogoUPV_2023.png>
 Package pdftex.def Info: LogoUPV_2023.png  used on input line 174.
@@ -1581,12 +1581,12 @@ Package pdftex.def Info: LogoUPV_2023.png  used on input line 174.
 
 {C:/Users/jose_/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map} <./UTYP.png> 
 <./LogoUPV_2023.png>]
-<CartaPresentacion.pdf, id=108, 614.295pt x 794.97pt>
+<CartaPresentacion.pdf, id=112, 614.295pt x 794.97pt>
 File: CartaPresentacion.pdf Graphic file (type pdf)
 <use CartaPresentacion.pdf>
 Package pdftex.def Info: CartaPresentacion.pdf  used on input line 224.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-<CartaPresentacion.pdf, id=110, page=1, 614.295pt x 794.97pt>
+<CartaPresentacion.pdf, id=114, page=1, 614.295pt x 794.97pt>
 File: CartaPresentacion.pdf Graphic file (type pdf)
 <use CartaPresentacion.pdf, page 1>
 Package pdftex.def Info: CartaPresentacion.pdf , page1 used on input line 224.
@@ -1618,12 +1618,12 @@ Package pdftex.def Info: CartaPresentacion.pdf , page1 used on input line 224.
 
 
  <./CartaPresentacion.pdf>]
-<CartaAceptacion.pdf, id=118, 614.295pt x 794.97pt>
+<CartaAceptacion.pdf, id=122, 614.295pt x 794.97pt>
 File: CartaAceptacion.pdf Graphic file (type pdf)
 <use CartaAceptacion.pdf>
 Package pdftex.def Info: CartaAceptacion.pdf  used on input line 229.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-<CartaAceptacion.pdf, id=120, page=1, 614.295pt x 794.97pt>
+<CartaAceptacion.pdf, id=124, page=1, 614.295pt x 794.97pt>
 File: CartaAceptacion.pdf Graphic file (type pdf)
 <use CartaAceptacion.pdf, page 1>
 Package pdftex.def Info: CartaAceptacion.pdf , page1 used on input line 229.
@@ -1648,12 +1648,12 @@ Package pdftex.def Info: CartaAceptacion.pdf , page1 used on input line 229.
 
 
  <./CartaAceptacion.pdf>]
-<CartaLiberacion.pdf, id=129, 614.295pt x 794.97pt>
+<CartaLiberacion.pdf, id=133, 614.295pt x 794.97pt>
 File: CartaLiberacion.pdf Graphic file (type pdf)
 <use CartaLiberacion.pdf>
 Package pdftex.def Info: CartaLiberacion.pdf  used on input line 234.
 (pdftex.def)             Requested size: 614.29349pt x 794.96806pt.
-<CartaLiberacion.pdf, id=131, page=1, 614.295pt x 794.97pt>
+<CartaLiberacion.pdf, id=135, page=1, 614.295pt x 794.97pt>
 File: CartaLiberacion.pdf Graphic file (type pdf)
 <use CartaLiberacion.pdf, page 1>
 Package pdftex.def Info: CartaLiberacion.pdf , page1 used on input line 234.
@@ -1687,7 +1687,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 257--258
 
  []
 
-<Membrete_2023_Sin_Colores_Diabolicos.pdf, id=145, 614.295pt x 794.97pt>
+<Membrete_2023_Sin_Colores_Diabolicos.pdf, id=149, 614.295pt x 794.97pt>
 File: Membrete_2023_Sin_Colores_Diabolicos.pdf Graphic file (type pdf)
 <use Membrete_2023_Sin_Colores_Diabolicos.pdf>
 Package pdftex.def Info: Membrete_2023_Sin_Colores_Diabolicos.pdf  used on inpu
@@ -1840,11 +1840,11 @@ Package fancyhdr Warning: \headheight is too small (45.0pt):
 ] (Capitulo3.tex
 File: UTYP.png Graphic file (type png)
 <use UTYP.png>
-Package pdftex.def Info: UTYP.png  used on input line 23.
+Package pdftex.def Info: UTYP.png  used on input line 12.
 (pdftex.def)             Requested size: 54.71477pt x 28.45274pt.
 File: LogoUPV_2023.png Graphic file (type png)
 <use LogoUPV_2023.png>
-Package pdftex.def Info: LogoUPV_2023.png  used on input line 23.
+Package pdftex.def Info: LogoUPV_2023.png  used on input line 12.
 (pdftex.def)             Requested size: 93.6426pt x 35.56593pt.
 
 
@@ -1858,14 +1858,14 @@ Package fancyhdr Warning: \headheight is too small (45.0pt):
 
 
 
-])
+]
 File: UTYP.png Graphic file (type png)
 <use UTYP.png>
-Package pdftex.def Info: UTYP.png  used on input line 514.
+Package pdftex.def Info: UTYP.png  used on input line 24.
 (pdftex.def)             Requested size: 54.71477pt x 28.45274pt.
 File: LogoUPV_2023.png Graphic file (type png)
 <use LogoUPV_2023.png>
-Package pdftex.def Info: LogoUPV_2023.png  used on input line 514.
+Package pdftex.def Info: LogoUPV_2023.png  used on input line 24.
 (pdftex.def)             Requested size: 93.6426pt x 35.56593pt.
 
 
@@ -1876,6 +1876,23 @@ Package fancyhdr Warning: \headheight is too small (45.0pt):
 (fancyhdr)                \addtolength{\topmargin}{-2.35004pt}.
 
 [2]
+File: UTYP.png Graphic file (type png)
+<use UTYP.png>
+Package pdftex.def Info: UTYP.png  used on input line 45.
+(pdftex.def)             Requested size: 54.71477pt x 28.45274pt.
+File: LogoUPV_2023.png Graphic file (type png)
+<use LogoUPV_2023.png>
+Package pdftex.def Info: LogoUPV_2023.png  used on input line 45.
+(pdftex.def)             Requested size: 93.6426pt x 35.56593pt.
+
+
+Package fancyhdr Warning: \headheight is too small (45.0pt): 
+(fancyhdr)                Make it at least 47.35004pt, for example:
+(fancyhdr)                \setlength{\headheight}{47.35004pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.35004pt}.
+
+[3])
 File: UTYP.png Graphic file (type png)
 <use UTYP.png>
 Package pdftex.def Info: UTYP.png  used on input line 515.
@@ -1892,7 +1909,7 @@ Package fancyhdr Warning: \headheight is too small (45.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.35004pt}.
 
-[3] (Capitulo4.tex
+[4] (Capitulo4.tex
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 16.
@@ -1920,7 +1937,7 @@ Package fancyhdr Warning: \headheight is too small (45.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.35004pt}.
 
-[4
+[5
 
 ]
 
@@ -1952,7 +1969,7 @@ Package fancyhdr Warning: \headheight is too small (45.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.35004pt}.
 
-[5]
+[6]
 File: UTYP.png Graphic file (type png)
 <use UTYP.png>
 Package pdftex.def Info: UTYP.png  used on input line 518.
@@ -1969,7 +1986,7 @@ Package fancyhdr Warning: \headheight is too small (45.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.35004pt}.
 
-[6] (Capitulo5.tex) (Capitulo6.tex) (main.lof
+[7] (Capitulo5.tex) (Capitulo6.tex) (main.lof
 LaTeX Info: Redefining \sptext on input line 1.
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
@@ -1993,7 +2010,7 @@ Package fancyhdr Warning: \headheight is too small (45.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.35004pt}.
 
-[7
+[8
 
 
 
@@ -2021,7 +2038,7 @@ Package fancyhdr Warning: \headheight is too small (45.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.35004pt}.
 
-[8
+[9
 
 ] (main.loa)
 \tf@loa=\write10
@@ -2043,13 +2060,33 @@ Package fancyhdr Warning: \headheight is too small (45.0pt):
 (fancyhdr)                You might also make \topmargin smaller:
 (fancyhdr)                \addtolength{\topmargin}{-2.35004pt}.
 
-[9
+[10
 
 ]
+LaTeX Font Info:    Trying to load font information for T1+cmtt on input line 5
+50.
+ (C:\Users\jose_\AppData\Local\Programs\MiKTeX\tex/latex/base\t1cmtt.fd
+File: t1cmtt.fd 2023/04/13 v2.5m Standard LaTeX font definitions
+)
+File: UTYP.png Graphic file (type png)
+<use UTYP.png>
+Package pdftex.def Info: UTYP.png  used on input line 552.
+(pdftex.def)             Requested size: 54.71477pt x 28.45274pt.
+File: LogoUPV_2023.png Graphic file (type png)
+<use LogoUPV_2023.png>
+Package pdftex.def Info: LogoUPV_2023.png  used on input line 552.
+(pdftex.def)             Requested size: 93.6426pt x 35.56593pt.
 
-LaTeX Warning: Empty bibliography on input line 550.
 
-(main.aux
+Package fancyhdr Warning: \headheight is too small (45.0pt): 
+(fancyhdr)                Make it at least 47.35004pt, for example:
+(fancyhdr)                \setlength{\headheight}{47.35004pt}.
+(fancyhdr)                You might also make \topmargin smaller:
+(fancyhdr)                \addtolength{\topmargin}{-2.35004pt}.
+
+[11
+
+] (main.aux
 LaTeX Info: Redefining \sptext on input line 15.
 LaTeX Info: Redefining \. on input line 15.
 LaTeX Info: Redefining \% on input line 15.
@@ -2058,35 +2095,45 @@ LaTeX Info: Redefining \% on input line 15.
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 4583DF0042065C7FD664410554C47602;5475.
+(rerunfilecheck)             Checksum: 8D343D02066D2BD2C68EA53D81656CA7;5575.
+
+Package biblatex Warning: Please (re)run BibTeX on the file(s):
+(biblatex)                main
+(biblatex)                and rerun LaTeX afterwards.
+
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 45809 strings out of 474486
- 962198 string characters out of 5743755
+ 46071 strings out of 474486
+ 968175 string characters out of 5743755
  1953542 words of memory out of 5000000
- 67390 multiletter control sequences out of 15000+600000
- 573399 words of font info for 78 fonts, out of 8000000 for 9000
+ 67639 multiletter control sequences out of 15000+600000
+ 573712 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  116i,17n,121p,1852b,1875s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\jose_\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecxc
+ <C:\Users\jose_\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt
 1200.pk> <C:\Users\jose_\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi60
-0\ecti1200.pk> <C:\Users\jose_\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
-/dpi600\eccc1200.pk> <C:\Users\jose_\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
-pen/ec/dpi600\ecrm0800.pk> <C:\Users\jose_\AppData\Local\MiKTeX\fonts/pk/ljfour
-/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\jose_\AppData\Local\MiKTeX\fonts/pk/
-ljfour/jknappen/ec/dpi600\ecrm1440.pk> <C:\Users\jose_\AppData\Local\MiKTeX\fon
-ts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\jose_\AppData\Local\MiKT
-eX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\jose_\AppData\Loca
-l\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1728.pk> <C:\Users\jose_\AppDat
-a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/jose_/A
-ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-Output written on main.pdf (20 pages, 1119172 bytes).
+0\ecxc1200.pk> <C:\Users\jose_\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec
+/dpi600\ecti1200.pk> <C:\Users\jose_\AppData\Local\MiKTeX\fonts/pk/ljfour/jknap
+pen/ec/dpi600\eccc1200.pk> <C:\Users\jose_\AppData\Local\MiKTeX\fonts/pk/ljfour
+/jknappen/ec/dpi600\ecrm0800.pk> <C:\Users\jose_\AppData\Local\MiKTeX\fonts/pk/
+ljfour/jknappen/ec/dpi600\ecbx1200.pk> <C:\Users\jose_\AppData\Local\MiKTeX\fon
+ts/pk/ljfour/jknappen/ec/dpi600\ecrm1440.pk> <C:\Users\jose_\AppData\Local\MiKT
+eX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1440.pk> <C:\Users\jose_\AppData\Loca
+l\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1200.pk> <C:\Users\jose_\AppDat
+a\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecrm1728.pk> <C:\Users\jose_\
+AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ecbx1728.pk><C:/Users/j
+ose_/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb>
+Output written on main.pdf (22 pages, 1151871 bytes).
 PDF statistics:
- 739 PDF objects out of 1000 (max. 8388607)
- 43 named destinations out of 1000 (max. 500000)
- 257 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 833 PDF objects out of 1000 (max. 8388607)
+ 52 named destinations out of 1000 (max. 500000)
+ 265 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -16,5 +16,263 @@
   {}
 \endgroup
 
-\datalist[entry]{none/global//global/global}\enddatalist
+\datalist[entry]{none/global//global/global}
+  \entry{Sudmanns2019}{article}{}
+    \name{author}{8}{}{%
+      {{hash=SM}{%
+         family={Sudmanns},
+         familyi={S\bibinitperiod},
+         given={Martin},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=TD}{%
+         family={Tiede},
+         familyi={T\bibinitperiod},
+         given={Dirk},
+         giveni={D\bibinitperiod},
+      }}%
+      {{hash=LS}{%
+         family={Lang},
+         familyi={L\bibinitperiod},
+         given={Stefan},
+         giveni={S\bibinitperiod},
+      }}%
+      {{hash=BH}{%
+         family={Bergstedt},
+         familyi={B\bibinitperiod},
+         given={Holger},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=TB}{%
+         family={Tams},
+         familyi={T\bibinitperiod},
+         given={Benjamin},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=BP}{%
+         family={Bar},
+         familyi={B\bibinitperiod},
+         given={Pia},
+         giveni={P\bibinitperiod},
+      }}%
+      {{hash=AH}{%
+         family={Augustin},
+         familyi={A\bibinitperiod},
+         given={Harald},
+         giveni={H\bibinitperiod},
+      }}%
+      {{hash=LKK}{%
+         family={Lang-Kr\"{o}lli},
+         familyi={L\bibinithyphendelim K\bibinitperiod},
+         given={Katharina},
+         giveni={K\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{SM+1}
+    \strng{fullhash}{SMTDLSBHTBBPAHLKK1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.3390/rs11212577
+    \endverb
+    \field{number}{21}
+    \field{pages}{2577}
+    \field{title}{Big Earth Observation Data-A Review of the Challenges and
+  Opportunities for Big Data Processing in the Copernicus Era}
+    \field{volume}{11}
+    \field{journaltitle}{Remote Sensing}
+    \field{year}{2019}
+  \endentry
+
+  \entry{Litjens2017}{article}{}
+    \name{author}{9}{}{%
+      {{hash=LG}{%
+         family={Litjens},
+         familyi={L\bibinitperiod},
+         given={Geert},
+         giveni={G\bibinitperiod},
+      }}%
+      {{hash=KT}{%
+         family={Kooi},
+         familyi={K\bibinitperiod},
+         given={Thijs},
+         giveni={T\bibinitperiod},
+      }}%
+      {{hash=BBE}{%
+         family={Bejnordi},
+         familyi={B\bibinitperiod},
+         given={Babak\bibnamedelima Ehteshami},
+         giveni={B\bibinitperiod\bibinitdelim E\bibinitperiod},
+      }}%
+      {{hash=SAAA}{%
+         family={Setio},
+         familyi={S\bibinitperiod},
+         given={Arnaud Arindra\bibnamedelima Adiyoso},
+         giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim
+  A\bibinitperiod},
+      }}%
+      {{hash=CF}{%
+         family={Ciompi},
+         familyi={C\bibinitperiod},
+         given={Francesco},
+         giveni={F\bibinitperiod},
+      }}%
+      {{hash=GM}{%
+         family={Ghafoorian},
+         familyi={G\bibinitperiod},
+         given={Mohsen},
+         giveni={M\bibinitperiod},
+      }}%
+      {{hash=vdLJAWM}{%
+         prefix={van\bibnamedelima der},
+         prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod},
+         family={Laak},
+         familyi={L\bibinitperiod},
+         given={Jeroen A. W.\bibnamedelima M.},
+         giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim
+  W\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+      {{hash=vGB}{%
+         prefix={van},
+         prefixi={v\bibinitperiod},
+         family={Ginneken},
+         familyi={G\bibinitperiod},
+         given={Bram},
+         giveni={B\bibinitperiod},
+      }}%
+      {{hash=SCI}{%
+         family={S\'{a}nchez},
+         familyi={S\bibinitperiod},
+         given={Clara\bibnamedelima I.},
+         giveni={C\bibinitperiod\bibinitdelim I\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{LG+1}
+    \strng{fullhash}{LGKTBBESAAACFGMLJAWMvdGBvSCI1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1016/j.media.2017.07.005
+    \endverb
+    \field{pages}{60\bibrangedash 88}
+    \field{title}{A survey on deep learning in medical image analysis}
+    \field{volume}{42}
+    \field{journaltitle}{Medical Image Analysis}
+    \field{year}{2017}
+  \endentry
+
+  \entry{Ondimu2017}{article}{}
+    \name{author}{2}{}{%
+      {{hash=OKO}{%
+         family={Ondimu},
+         familyi={O\bibinitperiod},
+         given={Kennedy\bibnamedelima O.},
+         giveni={K\bibinitperiod\bibinitdelim O\bibinitperiod},
+      }}%
+      {{hash=MGM}{%
+         family={Muketha},
+         familyi={M\bibinitperiod},
+         given={Geoffrey\bibnamedelima M.},
+         giveni={G\bibinitperiod\bibinitdelim M\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{OKOMGM1}
+    \strng{fullhash}{OKOMGM1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.5120/ijca2017914539
+    \endverb
+    \field{number}{10}
+    \field{pages}{33\bibrangedash 39}
+    \field{title}{Challenges in Achieving Interoperability in Distributed
+  Systems: a Survey of Literature}
+    \field{volume}{168}
+    \field{journaltitle}{International Journal of Computer Applications}
+    \field{year}{2017}
+  \endentry
+
+  \entry{Goble2007}{article}{}
+    \name{author}{2}{}{%
+      {{hash=GCA}{%
+         family={Goble},
+         familyi={G\bibinitperiod},
+         given={Carole\bibnamedelima A.},
+         giveni={C\bibinitperiod\bibinitdelim A\bibinitperiod},
+      }}%
+      {{hash=DRD}{%
+         family={De\bibnamedelima Roure},
+         familyi={D\bibinitperiod\bibinitdelim R\bibinitperiod},
+         given={David},
+         giveni={D\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GCADRD1}
+    \strng{fullhash}{GCADRD1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \verb{doi}
+    \verb 10.1007/s10723-007-9078-8
+    \endverb
+    \field{number}{3}
+    \field{pages}{249\bibrangedash 255}
+    \field{title}{Scientific workflow systems--for whom and for what?}
+    \field{volume}{5}
+    \field{journaltitle}{Journal of Grid Computing}
+    \field{year}{2007}
+  \endentry
+
+  \entry{GonzalezCompean2020}{misc}{}
+    \true{moreauthor}
+    \true{morelabelname}
+    \name{author}{1}{}{%
+      {{hash=GCJL}{%
+         family={Gonz{\'{a}}lez-Compe{a}n},
+         familyi={G\bibinithyphendelim C\bibinitperiod},
+         given={J.\bibnamedelima L.},
+         giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod},
+      }}%
+    }
+    \strng{namehash}{GCJL+1}
+    \strng{fullhash}{GCJL+1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+  \field{howpublished}{\url{https://contactos.izt.uam.mx/index.php/contactos/article/view/297/169}}
+    \field{title}{Muyal-Nez, una plataforma de construcci{o}n de sistemas de
+  ciencias de datos m{e}dicos para procesos de toma de decisiones en el sector
+  salud}
+    \field{journaltitle}{ContactoS}
+    \field{year}{2020}
+  \endentry
+
+  \entry{Calcote2019}{book}{}
+    \name{author}{2}{}{%
+      {{hash=CL}{%
+         family={Calcote},
+         familyi={C\bibinitperiod},
+         given={Lee},
+         giveni={L\bibinitperiod},
+      }}%
+      {{hash=BZ}{%
+         family={Butcher},
+         familyi={B\bibinitperiod},
+         given={Zack},
+         giveni={Z\bibinitperiod},
+      }}%
+    }
+    \list{publisher}{1}{%
+      {O'Reilly Media, Inc.}%
+    }
+    \strng{namehash}{CLBZ1}
+    \strng{fullhash}{CLBZ1}
+    \field{labelnamesource}{author}
+    \field{labeltitlesource}{title}
+    \field{title}{Istio: Up and Running: Using a Service Mesh to Connect,
+  Secure, Control, and Observe}
+    \list{location}{1}{%
+      {Sebastopol, CA, USA}%
+    }
+    \field{year}{2019}
+  \endentry
+\enddatalist
 \endinput
