@@ -1,37 +1,199 @@
 \section{Marco Teórico}
-Este capítulo establece el marco conceptual y tecnológico sobre el cual se fundamenta el proyecto. Se definen los principios de arquitecturas de software modernas, se formaliza el modelo PuzzleMesh, se introduce el rol del middleware como catalizador de la interoperabilidad y se describen las plataformas tecnológicas involucradas.
+Este capítulo establece el marco conceptual y tecnológico sobre el cual se fundamenta el proyecto. Se exploran en profundidad las arquitecturas de software para sistemas distribuidos, con especial énfasis en los microservicios y las mallas de servicios, que constituyen el paradigma moderno para la construcción de aplicaciones escalables. Posteriormente, se formaliza el modelo conceptual \textbf{PuzzleMesh}, detallando su enfoque innovador para la composición de sistemas agnósticos a la infraestructura. Se introduce el rol del \textit{middleware} como un catalizador indispensable para la interoperabilidad, contextualizando su función dentro del ecosistema de integración de este proyecto. Finalmente, se describen las plataformas de software clave (Nez, Jub, MictlanX) y los mecanismos tecnológicos, como la monitorización del sistema de archivos y la contenerización, que habilitan la implementación de la solución propuesta.
 
-\subsection{Arquitecturas Orientadas a Microservicios y Mallas de Servicios (Service Mesh)}
-Las arquitecturas de microservicios estructuran una aplicación como una colección de servicios pequeños, autónomos y débilmente acoplados. Para gestionar la complejidad en la comunicación entre estos servicios, ha surgido el concepto de Malla de Servicios (Service Mesh). Una malla de servicios es una capa de infraestructura de software dedicada que facilita la comunicación entre microservicios en una arquitectura distribuida. Actúa como un intermediario que gestiona el tráfico de red, proporcionando funcionalidades críticas como el descubrimiento de servicios, el balanceo de carga, la encriptación, la observabilidad y la resiliencia. Su arquitectura se compone de un \textbf{Plano de Datos}, formado por proxies ligeros (sidecars) que interceptan el tráfico, y un \textbf{Plano de Control}, que administra y configura dichos proxies para aplicar políticas de enrutamiento y seguridad.
+\subsection{Arquitecturas de Software para Sistemas Distribuidos}
+Un sistema distribuido es una colección de componentes de software autónomos, ubicados en diferentes nodos de una red, que se comunican y coordinan entre sí para aparecer ante el usuario como un único sistema coherente \cite{tanenbaum2014distributed}. El diseño de estos sistemas presenta desafíos únicos en áreas como la comunicación, la coordinación, la escalabilidad y la tolerancia a fallos. Las arquitecturas de software proporcionan el andamiaje conceptual para abordar esta complejidad.
 
-\subsection{El Modelo Conceptual de PuzzleMesh}
-El modelo PuzzleMesh es un marco formal para construir estructuras de procesamiento agnósticas a la infraestructura, utilizando una metáfora de rompecabezas. Este modelo se alinea con los principios de las mallas de servicios al promover la modularidad y la gestión centralizada de componentes reutilizables.  
+\subsubsection{La Arquitectura de Microservicios}
+La arquitectura de microservicios ha surgido como el enfoque predominante para construir aplicaciones complejas y escalables. Este estilo arquitectónico estructura una aplicación como una colección de servicios pequeños, autónomos y débilmente acoplados, que se comunican a través de APIs bien definidas, comúnmente sobre HTTP \cite{newman2021building}.
 
-\subsubsection{La Pieza de Software (P): Unidad Fundamental de Procesamiento}
-La unidad básica es la Pieza de Software (P), un artefacto autocontenido que encapsula una aplicación con todos sus componentes necesarios para su despliegue y ejecución. Una pieza funciona como una \enquote{caja negra} con capas definidas para el acceso, interfaces de entrada/salida (E/S), la aplicación, metadatos y dependencias.  
-
-\subsubsection{El Rompecabezas (R): Composición de Flujos de Trabajo}
-Un Rompecabezas (R) es una estructura de procesamiento creada al unir un conjunto de Piezas. El orden de ejecución y el flujo de datos se definen mediante un \textbf{Grafo Acíclico Dirigido (DAG)}, donde los nodos son las piezas y los vértices representan las dependencias de datos entre ellas. Un rompecabezas representa un flujo de trabajo completo, como un pipeline de procesamiento de datos.  
-
-\subsubsection{El Metarompecabezas ($\Omega$): Habilitando Flujos de Datos Inter-Sistemas}
-PuzzleMesh introduce el concepto de Metarompecabezas ($\Omega$) al encadenar múltiples rompecabezas. Esto permite la creación de flujos de datos complejos que pueden abarcar diferentes departamentos o incluso distintas organizaciones (flujos interinstitucionales).  
-
-\subsubsection{La Malla de Servicios ($\Psi$) en PuzzleMesh}
-Finalmente, todas las Piezas, Rompecabezas y Metarompecabezas se incorporan en una Malla de Servicios ($\Psi$). En este contexto, la malla actúa como un repositorio o catálogo centralizado desde el cual las organizaciones pueden seleccionar, componer y reutilizar estos bloques de construcción para crear nuevos servicios.  
-
-\subsection{Middleware como Catalizador de la Interoperabilidad en Sistemas Distribuidos}
-El objetivo central de este proyecto es lograr la interoperabilidad entre Nez y Jub, meta que se alcanza a través de un middleware. El middleware es una capa de software que se sitúa entre diferentes aplicaciones, funcionando como un puente o una \enquote{capa de traducción oculta} para facilitar su comunicación y el intercambio de datos. Su función es abstraer la complejidad de la comunicación en un entorno distribuido.
-
-La interoperabilidad es la capacidad de dos o más sistemas de intercambiar información y utilizarla de manera efectiva. Se distinguen varios niveles, desde el \textbf{fundacional} (intercambio básico de datos) hasta el \textbf{semántico} (comprensión compartida del significado de los datos). El middleware es el mecanismo técnico que permite alcanzar la interoperabilidad, proporcionando servicios estandarizados como la transformación de datos y el enrutamiento de mensajes.
-
-\subsection{Plataformas Involucradas}
-El ecosistema del proyecto se compone de tres plataformas desarrolladas en el \textbf{CINVESTAV Tamaulipas}:  
-
+\paragraph{Principios y Características.}
+A diferencia de las arquitecturas monolíticas tradicionales, donde toda la funcionalidad reside en una única base de código, los microservicios se adhieren a los siguientes principios:
 \begin{itemize}
-    \item \textbf{Nez:} Es el framework para el procesamiento de datos a gran escala que implementa el modelo conceptual de PuzzleMesh. Ha sido utilizado con éxito en dominios como el análisis de imágenes de tomografía y la observación de la Tierra.  
-    \item \textbf{Jub:} Es un concentrador y distribuidor de datos diseñado para el monitoreo de fenómenos atmosféricos, actuando como un gestor de datos y punto de acceso para servicios de ciencia de datos.  
-    \item \textbf{MictlanX:} Es la plataforma designada para gestionar las operaciones de almacenamiento dentro del ecosistema integrado, manejando la persistencia de los datos que fluyen entre Jub y Nez.  
+    \item \textbf{Alta Cohesión y Bajo Acoplamiento:} Cada servicio encapsula una capacidad de negocio específica y completa. Las dependencias entre servicios se minimizan y se gestionan a través de interfaces estables, lo que reduce el impacto de los cambios.
+    \item \textbf{Autonomía:} Cada servicio puede ser desarrollado, desplegado, escalado y actualizado de forma independiente del resto de la aplicación. Esto permite a los equipos trabajar en paralelo y acelera los ciclos de entrega.
+    \item \textbf{Propiedad Descentralizada de los Datos:} Idealmente, cada microservicio es propietario de sus propios datos y es el único responsable de su persistencia. La comunicación con otras bases de datos se realiza a través de la API del servicio propietario, evitando el acoplamiento a nivel de base de datos \cite{richardson2018patterns}.
+    \item \textbf{Diversidad Tecnológica (Poliglotismo):} Los equipos pueden elegir la pila tecnológica (lenguaje de programación, base de datos, etc.) más adecuada para los requisitos específicos de su servicio, sin estar atados a una decisión tecnológica unificada para toda la aplicación.
 \end{itemize}
 
-\subsection{Aprendizaje Profundo como Servicio en el Procesamiento de Imágenes y Señales}
-La motivación final para integrar estas plataformas es habilitar el uso de algoritmos avanzados de Aprendizaje Profundo (\textit{Deep Learning}). Este subcampo del aprendizaje automático utiliza redes neuronales con múltiples capas para aprender representaciones de datos con altos niveles de abstracción. Esta tecnología es altamente eficaz en el reconocimiento de patrones complejos, especialmente en el procesamiento de imágenes y señales. La integración de Nez y Jub a través del middleware permitirá ofrecer estas capacidades como un servicio (\textit{Deep Learning as a Service -- DLaaS}), donde los usuarios de Jub pueden solicitar análisis complejos que se ejecutarán en la infraestructura de alto rendimiento de Nez.
+\paragraph{Ventajas y Desafíos.}
+Las principales ventajas de los microservicios son la agilidad, la escalabilidad granular (se pueden escalar solo los servicios que lo necesitan) y la resiliencia (un fallo en un servicio no tiene por qué derribar toda la aplicación). Sin embargo, esta arquitectura introduce una complejidad operativa significativa. La gestión de la comunicación entre docenas o cientos de servicios, el descubrimiento de servicios, el balanceo de carga, la gestión de fallos en cascada y la observabilidad del sistema en su conjunto se convierten en desafíos de primer orden \cite{fowler2014microservices}.
+
+\subsubsection{Mallas de Servicios (Service Mesh)}
+Para abordar la complejidad operativa de los microservicios, ha surgido el paradigma de la Malla de Servicios (\textit{Service Mesh}). Una malla de servicios es una capa de infraestructura de software dedicada y configurable que gestiona la comunicación entre los servicios de una aplicación. Su objetivo es externalizar la lógica de comunicación de red fuera del código de la aplicación, proporcionando funcionalidades críticas de manera uniforme y transparente \cite{Calcote2019}.
+
+\paragraph{Arquitectura: Plano de Datos y Plano de Control.}
+La arquitectura de una malla de servicios se divide conceptualmente en dos componentes principales:
+\begin{itemize}
+    \item \textbf{Plano de Datos (Data Plane):} Está compuesto por una red de \textit{proxies} ligeros que se despliegan junto a cada instancia de un microservicio, en un patrón conocido como \textit{sidecar}. Todo el tráfico de red de entrada y salida de un servicio es interceptado y enrutado a través de su \textit{proxy sidecar}. Estos \textit{proxies} gestionan el balanceo de carga, el descubrimiento de servicios, la aplicación de políticas de seguridad y la recopilación de métricas de telemetría.
+    \item \textbf{Plano de Control (Control Plane):} Es el "cerebro" de la malla de servicios. Proporciona una API para que los operadores configuren y administren el comportamiento de los \textit{proxies} en el plano de datos. El plano de control centraliza la configuración de políticas, agrega datos de telemetría de todos los \textit{proxies} y proporciona una visión unificada del estado y el rendimiento de la malla.
+\end{itemize}
+Herramientas como Istio, Linkerd y Consul son implementaciones populares de este patrón, que se ha convertido en un estándar de facto para la gestión de aplicaciones nativas de la nube \cite{gancarski2021survey}.
+
+\subsubsection{Patrones de Comunicación en Sistemas Distribuidos}
+La comunicación es la columna vertebral de cualquier sistema distribuido. La elección del patrón de comunicación tiene un impacto profundo en las características del sistema, como el acoplamiento, la resiliencia y la escalabilidad. Fundamentalmente, los patrones se dividen en dos categorías: síncronos y asíncronos.
+
+\paragraph{Comunicación Síncrona.}
+En este patrón, el cliente envía una petición a un servicio y bloquea su ejecución, esperando una respuesta. Si el servicio no responde (ya sea por una falla o por latencia), el cliente permanece bloqueado. La comunicación a través de APIs REST sobre HTTP, como se describe en la tesis de Fielding \\cite{fielding2000rest}, es el ejemplo más común de este patrón.
+
+\begin{itemize}
+    \item \textbf{Ventajas:} Es un modelo mentalmente simple y familiar, similar a una llamada a una función local. El cliente recibe una respuesta inmediata sobre el éxito o fracaso de la operación, lo que facilita el manejo de errores directos.
+    \item \textbf{Desventajas:} Introduce un fuerte acoplamiento temporal. El cliente y el servidor deben estar disponibles simultáneamente. Una falla en el servicio puede causar fallas en cascada, ya que los clientes que dependen de él quedan bloqueados. La latencia del sistema general está determinada por la suma de las latencias de las llamadas en la cadena.
+\end{itemize}
+
+\paragraph{Comunicación Asíncrona.}
+En el patrón asíncrono, el cliente envía un mensaje o evento y continúa con su procesamiento sin esperar una respuesta inmediata. La comunicación se realiza típicamente a través de un intermediario conocido como \textbf{Message Broker} o bus de eventos (por ejemplo, RabbitMQ, Apache Kafka). El cliente deposita un mensaje en una cola y el servicio lo consume cuando está disponible.
+
+\begin{itemize}
+    \item \textbf{Ventajas:}
+    \begin{itemize}
+        \item \textbf{Desacoplamiento Temporal:} El cliente y el servidor no necesitan estar disponibles al mismo tiempo. Si el servicio consumidor está caído, el mensaje permanece en la cola hasta que el servicio se recupera, aumentando la resiliencia del sistema.
+        \item \textbf{Balanceo de Carga y Escalabilidad:} Múltiples instancias de un servicio pueden consumir mensajes de la misma cola, lo que permite distribuir la carga de trabajo de manera natural y escalar los servicios de forma independiente.
+        \item \textbf{Amortiguación de Carga (Load Leveling):} El message broker actúa como un búfer que puede absorber picos de carga, protegiendo a los servicios consumidores de ser sobrecargados. Los mensajes se encolan y se procesan al ritmo que el consumidor puede manejar.
+    \end{itemize}
+    \item \textbf{Desventajas:} Aumenta la complejidad del sistema al introducir un nuevo componente (el broker). El modelo de programación es más complejo, ya que se debe lidiar con la consistencia eventual y la correlación de mensajes si se necesita una respuesta.
+\end{itemize}
+
+La elección entre estos patrones no es excluyente; muchos sistemas complejos utilizan una combinación de ambos. Para el middleware de este proyecto, aunque la interacción final con MictlanX puede ser una llamada síncrona, el disparador del proceso es inherentemente asíncrono: el middleware reacciona a un evento (la creación de un archivo) que ocurrió en un momento indeterminado, desacoplando así el proceso de generación de datos de Nez del proceso de registro en Jub. Este enfoque basado en eventos se alinea con los principios de la comunicación asíncrona, proporcionando resiliencia y autonomía al flujo de trabajo de integración \cite{hohpe2003enterprise}.
+
+\subsection{El Modelo Conceptual de PuzzleMesh}
+El modelo \textbf{PuzzleMesh} es un marco de trabajo formal, desarrollado en el CINVESTAV, para la construcción de estructuras de procesamiento de datos que son, por diseño, agnósticas a la infraestructura subyacente. Utiliza una poderosa metáfora de "rompecabezas" para abstraer la complejidad de la composición de sistemas distribuidos, alineándose con los principios de modularidad y reutilización promovidos por las mallas de servicios \cite{sanchez2021efficient}.
+
+\subsubsection{La Pieza de Software (P): La Unidad Fundamental}
+La unidad básica y fundamental del modelo es la \textbf{Pieza de Software (P)}. Una pieza no es solo una aplicación, sino un artefacto de software \textbf{autocontenido} que encapsula una funcionalidad específica junto con todos los componentes necesarios para su correcto despliegue y ejecución. La arquitectura de una pieza se puede visualizar como una pila con las siguientes capas:
+\begin{itemize}
+    \item \textbf{Capa de Acceso:} Verifica que el acceso a la pieza y sus componentes sea válido, usualmente mediante un sistema de tokenización.
+    \item \textbf{Interfaces de Entrada/Salida (E/S):} Definen los puntos de conexión de la pieza. Las interfaces de entrada (\textit{sockets}) leen datos de una fuente, mientras que las de salida (\textit{loops}) escriben los resultados en un destino. Representan la "forma" o "curvatura" de la pieza que le permite encajar con otras.
+    \item \textbf{Aplicación:} Contiene el código fuente o el binario de la aplicación que realiza el procesamiento principal.
+    \item \textbf{Metadatos:} Incluyen los parámetros de configuración, la ruta de ejecución y cualquier otra información necesaria para invocar la aplicación.
+    \item \textbf{Dependencias:} Empaqueta todas las librerías, variables de entorno y otros artefactos de los que depende la aplicación.
+\end{itemize}
+Esta estructura garantiza que cada pieza sea un componente autónomo y portable, una verdadera "caja negra" funcional.
+
+\subsubsection{El Rompecabezas (R): Componiendo Flujos de Trabajo}
+Un \textbf{Rompecabezas (R)} es una estructura de procesamiento de alto nivel que se crea al acoplar un conjunto de piezas. La lógica de composición se define mediante un \textbf{Grafo Acíclico Dirigido (DAG)}, donde los nodos del grafo son las piezas y los vértices representan las dependencias y el flujo de datos entre ellas. Un rompecabezas define un flujo de trabajo completo, desde una o más fuentes de datos hasta uno o más destinos, orquestando la ejecución de las piezas que lo componen.
+
+\subsubsection{El Metarompecabezas ($\Omega$): Interoperabilidad Inter-Sistemas}
+El modelo PuzzleMesh escala el concepto de composición al introducir el \textbf{Metarompecabezas ($\Omega$)}. Un metarompecabezas se construye encadenando múltiples rompecabezas. Esta capacidad es la que permite modelar flujos de trabajo extremadamente complejos que pueden cruzar fronteras departamentales, organizacionales o de infraestructura. Por ejemplo, un metarompecabezas podría modelar un flujo donde los datos se originan en el sistema A (representado por un rompecabezas), se procesan en el sistema B (otro rompecabezas) y finalmente se consumen en el sistema C (un tercer rompecabezas). Esta abstracción es clave para lograr una interoperabilidad real y a gran escala \cite{sanchez2022puzzlemesh}.
+
+\subsection{Middleware como Catalizador de la Interoperabilidad}
+La interoperabilidad, o la capacidad de sistemas heterogéneos para comunicarse y trabajar conjuntamente, es uno de los mayores desafíos en la ingeniería de software moderna. El \textit{middleware} es la solución estratégica a este problema. En su nivel más fundamental, se define como una capa de software que se sitúa entre el sistema operativo y las aplicaciones, o entre aplicaciones dispares, para abstraer la complejidad de la comunicación en un entorno distribuido \cite{e-g-2008middleware}. Funciona como un "pegamento de software" o una "fontanería de software" que conecta componentes de software que de otro modo estarían aislados, permitiéndoles interactuar de manera coherente \cite{bernstein1996middleware}.
+
+\subsubsection{Definición y Objetivos del Middleware}
+El concepto de middleware surge de la necesidad de simplificar el desarrollo de sistemas distribuidos. En lugar de que cada aplicación deba resolver problemas complejos de comunicación, concurrencia y heterogeneidad, el middleware proporciona una capa de abstracción que ofrece soluciones reusables a estos problemas.
+
+Sus objetivos fundamentales son:
+\begin{itemize}
+    \item \textbf{Abstracción y Homogeneización:} Ocultar las diferencias entre plataformas de hardware, sistemas operativos y protocolos de red. El middleware crea un entorno de ejecución homogéneo que simplifica drásticamente el desarrollo, ya que los programadores pueden escribir código para una única API abstracta en lugar de para múltiples plataformas concretas.
+    \item \textbf{Interoperabilidad:} Facilitar que sistemas desarrollados con diferentes lenguajes de programación y tecnologías puedan intercambiar datos y servicios de manera significativa. Actúa como un traductor universal que permite a dos sistemas hablar entre sí sin necesidad de entender los detalles internos del otro.
+    \item \textbf{Provisión de Servicios Comunes:} Ofrecer un catálogo de servicios de alto nivel que las aplicaciones distribuidas necesitan comúnmente. Esto incluye la gestión de la comunicación, la seguridad (autenticación y cifrado), la gestión de transacciones distribuidas, la concurrencia y la notificación de eventos.
+    \item \textbf{Mejora de la Productividad del Desarrollador:} Al encargarse de la "fontanería" de la comunicación y otros servicios de bajo nivel, el middleware permite que los equipos de desarrollo se centren en la lógica de negocio de la aplicación, acelerando el tiempo de desarrollo y reduciendo la probabilidad de errores.
+\end{itemize}
+
+\subsubsection{Características Clave de un Sistema Middleware}
+Para cumplir con sus objetivos, un sistema middleware robusto típicamente exhibe las siguientes características:
+\begin{itemize}
+    \item \textbf{Transparencia de Red:} Oculta los detalles de la comunicación en red (sockets, puertos, protocolos). Para el desarrollador, la interacción con un servicio remoto se siente como si fuera una llamada a una función local.
+    \item \textbf{Independencia de la Plataforma:} El middleware está diseñado para ser portable y operar sobre diferentes sistemas operativos y arquitecturas de hardware, garantizando que las aplicaciones que lo utilizan también hereden esta portabilidad.
+    \item \textbf{Confiabilidad:} Ofrece mecanismos para garantizar la entrega de mensajes y la gestión de errores en la comunicación. Puede incluir reintentos automáticos, confirmaciones de entrega y gestión de transacciones para asegurar la consistencia.
+    \item \textbf{Escalabilidad:} Debe ser capaz de gestionar un número creciente de peticiones, conexiones y volúmenes de datos sin que su rendimiento se degrade significativamente.
+    \item \textbf{Seguridad:} Proporciona servicios integrados de autenticación, autorización y cifrado para proteger la comunicación entre los componentes del sistema distribuido.
+\end{itemize}
+
+\subsubsection{El Middleware en el Contexto de Este Proyecto}
+El middleware diseñado en este proyecto es una manifestación práctica de los conceptos anteriores, adaptado a las necesidades específicas de interoperabilidad entre las plataformas Nez y Jub. No es un intermediario pasivo, sino un componente de software \textbf{activo y reactivo}, cuya función es automatizar un flujo de trabajo que de otro modo sería manual.
+
+\paragraph{Arquitectura Reactiva Basada en Eventos.}
+La decisión de diseño clave es que el middleware no espera a ser invocado, sino que reacciona a eventos que ocurren en su entorno. Esta arquitectura se implementa a través de dos componentes principales:
+
+\begin{itemize}
+    \item \textbf{El Demonio (Daemon):} El núcleo del middleware se implementa como un demonio, un proceso que se ejecuta de forma continua en segundo plano, sin intervención del usuario. Esta es la decisión arquitectónica que garantiza su \textbf{operación continua y autónoma}, permitiendo una vigilancia desatendida del sistema, lo cual es esencial para un servicio de automatización.
+    \item \textbf{El Monitor del Sistema de Archivos (Watcher):} Este componente, implementado con la biblioteca \texttt{watchdog}, actúa como los "sentidos" del middleware. Se suscribe a los eventos del sistema de archivos en un directorio específico: el directorio de salida de Nez. En lugar de sondear (polling) ineficientemente el directorio a intervalos fijos, utiliza las notificaciones del sistema operativo para ser informado instantáneamente cuando ocurre un cambio.
+\end{itemize}
+
+\paragraph{Flujo de Trabajo de Interoperabilidad.}
+El funcionamiento del middleware sigue una secuencia clara y automatizada que materializa el puente entre Nez y Jub:
+\begin{enumerate}
+    \item El demonio del middleware se inicia y entra en un estado de vigilancia pasiva, consumiendo mínimos recursos del sistema.
+    \item El monitor \texttt{watchdog} se registra en el sistema operativo para observar el directorio de salida de la plataforma Nez.
+    \item La plataforma Nez completa una de sus tareas de procesamiento y genera un nuevo producto de datos (un archivo o una carpeta) en dicho directorio.
+    \item El sistema operativo notifica inmediatamente al proceso \texttt{watchdog} sobre el evento de creación de un nuevo archivo.
+    \item Esta notificación actúa como el \textbf{disparador (trigger)} que "despierta" la lógica principal del middleware.
+    \item El middleware lee el nuevo archivo y sus metadatos asociados para identificar el producto de datos.
+    \item A continuación, invoca al cliente de la plataforma MictlanX, pasándole el artefacto para su registro y publicación en el ecosistema de Jub. En este paso, el middleware actúa como un \textbf{cliente de servicio}.
+    \item Una vez completada la operación, el middleware vuelve a su estado de espera, listo para el próximo evento.
+\end{enumerate}
+Este diseño cumple con los objetivos de un middleware al proporcionar interoperabilidad y abstracción de una manera eficiente y de bajo acoplamiento, funcionando como un puente automatizado y reactivo que cohesiona dos sistemas previamente aislados.
+
+\subsection{Observabilidad en Sistemas Distribuidos}
+A medida que los sistemas se vuelven más distribuidos y complejos, los métodos tradicionales de depuración y monitoreo se vuelven insuficientes. La observabilidad es una propiedad de un sistema que permite entender su estado interno a partir de los datos que genera externamente. No se trata solo de monitorear si un sistema está "arriba" o "abajo" (monitoreo de caja negra), sino de tener la capacidad de hacer preguntas arbitrarias sobre su comportamiento sin necesidad de predefinirlas \cite{majors2022observability}. En el contexto de este proyecto, la observabilidad es crucial para garantizar que el middleware, un componente autónomo y desatendido, funcione de manera correcta y confiable.
+
+La observabilidad se sustenta en tres pilares fundamentales de datos de telemetría:
+
+\subsubsection{Logs (Registros)}
+Los logs son registros inmutables y con marca de tiempo de eventos discretos que ocurrieron en un punto específico del sistema. Son la forma más antigua y fundamental de telemetría.
+\begin{itemize}
+    \item \textbf{Función:} Proporcionan un contexto detallado y de alto nivel sobre un evento. Por ejemplo, el middleware podría generar un log al iniciarse, al detectar un nuevo archivo, al invocar al cliente de MictlanX, o si ocurre un error durante el proceso.
+    \item \textbf{Características:} Los logs deben ser estructurados (por ejemplo, en formato JSON) en lugar de texto plano. Un log estructurado permite realizar búsquedas, filtros y agregaciones de manera eficiente. Un buen log incluye información como la marca de tiempo, el nivel de severidad (INFO, WARN, ERROR), un mensaje descriptivo y metadatos relevantes (por ejemplo, el nombre del archivo procesado).
+    \item \textbf{En este proyecto:} La implementación de logs detallados en el middleware es esencial para la depuración post-mortem. Si un archivo no se procesa correctamente, los logs son el primer lugar para investigar qué sucedió, qué errores se produjeron y en qué punto del flujo de trabajo falló el proceso.
+\end{itemize}
+
+\subsubsection{Métricas}
+Las métricas son agregaciones numéricas de datos sobre el comportamiento de un sistema a lo largo del tiempo. A diferencia de los logs, que registran eventos individuales, las métricas resumen el estado y el rendimiento.
+\begin{itemize}
+    \item \textbf{Función:} Son ideales para la monitorización en tiempo real, la creación de dashboards y la configuración de alertas automáticas. Permiten identificar tendencias y anomalías en el comportamiento del sistema.
+    \item \textbf{Tipos Comunes:}
+    \begin{itemize}
+        \item \textbf{Contadores (Counters):} Un valor que solo se incrementa, como el número total de archivos procesados o el número de errores ocurridos.
+        \item \textbf{Medidores (Gauges):} Un valor que puede subir o bajar, como el número de archivos actualmente en cola para ser procesados.
+        \item \textbf{Histogramas (Histograms):} Miden la distribución de un conjunto de valores, como la latencia de las llamadas a la API de MictlanX o el tamaño de los archivos procesados.
+    \end{itemize}
+    \item \textbf{En este proyecto:} El middleware podría exponer métricas como `archivos\_procesados\_total`, `errores\_de\_procesamiento\_total`, y `latencia\_registro\_mictlanx\_seconds`. Estas métricas permitirían crear un dashboard para visualizar la salud y el rendimiento del middleware de un vistazo y alertar si, por ejemplo, la tasa de errores aumenta.
+\end{itemize}
+
+\subsubsection{Trazas Distribuidas (Distributed Tracing)}
+Mientras que los logs se centran en un evento y las métricas en una agregación, las trazas se centran en el ciclo de vida de una petición o flujo de trabajo a medida que se propaga a través de múltiples servicios.
+\begin{itemize}
+    \item \textbf{Función:} Son indispensables para entender la latencia y las dependencias en un sistema de microservicios o distribuido. Una traza sigue una única solicitud desde el principio hasta el fin, registrando cuánto tiempo pasó en cada servicio o componente.
+    \item \textbf{Anatomía de una Traza:} Una traza está compuesta por \textit{spans}. Cada span representa una unidad de trabajo (por ejemplo, una llamada a una función o una petición de red) y contiene un nombre, una hora de inicio y fin, y metadatos. Los spans se anidan para mostrar la relación padre-hijo.
+    \item \textbf{En este proyecto:} Aunque la implementación de trazas distribuidas completas puede ser compleja, el concepto es relevante. Se podría crear una "traza" para cada archivo procesado. El span raíz sería "Procesar Nuevo Archivo", y tendría spans hijos como "Leer Archivo del Disco", "Calcular Hash SHA-256" y "Registrar en MictlanX". Esto permitiría identificar cuellos de botella en el flujo de trabajo del middleware.
+\end{itemize}
+En conjunto, estos tres pilares proporcionan una visión completa y profunda del sistema, permitiendo no solo detectar fallos, sino también entender por qué ocurrieron, un requisito indispensable para la operación robusta de cualquier sistema de software crítico.
+
+\subsection{Plataformas del Ecosistema de Integración}
+El ecosistema tecnológico en el que se enmarca este proyecto está compuesto por tres plataformas clave, todas ellas desarrolladas internamente en el \textbf{CINVESTAV Tamaulipas}, lo que proporciona un conocimiento profundo de su funcionamiento interno.
+\begin{itemize}
+    \item \textbf{Nez:} Es un \textit{framework} avanzado para el procesamiento de datos a gran escala. Su principal innovación es ser la implementación de referencia del modelo conceptual PuzzleMesh, lo que le confiere una arquitectura modular y agnóstica a la infraestructura.
+    \item \textbf{Jub:} Es una plataforma diseñada como un concentrador y distribuidor de datos, especializada en el monitoreo de fenómenos atmosféricos. Actúa como un punto central para la ingesta y distribución de flujos de datos en tiempo real.
+    \item \textbf{MictlanX:} Es la plataforma de almacenamiento subyacente para el ecosistema. Funciona como un sistema de almacenamiento de objetos descentralizado, distribuido y respaldado por enrutadores. Este tipo de sistemas, a diferencia del almacenamiento de archivos tradicional, gestiona los datos como objetos discretos, cada uno con sus metadatos y un identificador único. Este enfoque facilita la escalabilidad masiva y la resiliencia, principios clave en sistemas de almacenamiento para la nube \cite{pape2011object, kleppmann2017designing}. El \textit{middleware} de este proyecto interactuará directamente con el cliente Python de MictlanX para la persistencia de los artefactos.
+\end{itemize}
+
+\subsection{Mecanismos para la Automatización del Middleware}
+Para que el \textit{middleware} funcione como un sistema autónomo y reactivo, es crucial implementar mecanismos de automatización que le permitan operar sin intervención humana.
+
+\subsubsection{Servicios en Segundo Plano (Demonios)}
+En sistemas operativos derivados de UNIX, un \textbf{demonio} (del inglés \textit{daemon}) es un proceso informático que se ejecuta en segundo plano (\\textit{background}), sin una terminal de control asociada. Los demonios son el pilar para la implementación de servicios que deben estar siempre disponibles, como servidores web, bases de datos o, en el caso de este proyecto, un monitor de sistema de archivos. El ciclo de vida de un demonio (su inicio, parada y reinicio en caso de fallo) es gestionado por el sistema operativo a través de un sistema de \textit{init} como \texttt{systemd} \cite{stevens2013advanced}. Implementar el \textit{middleware} como un demonio es, por tanto, el enfoque arquitectónico natural para garantizar una vigilancia continua y desatendida del sistema de archivos de Nez \cite{sanders2005daemon}.
+
+\subsubsection{Monitorización del Sistema de Archivos}
+El evento que debe disparar la lógica del \textit{middleware} es la creación de un nuevo archivo en el directorio de salida de Nez. Existen dos enfoques técnicos para esta tarea:
+\begin{itemize}
+    \item \textbf{Sondeo (Polling):} Este método consiste en verificar periódicamente (por ejemplo, cada segundo) el contenido de un directorio para ver si han ocurrido cambios. Aunque es conceptualmente simple, es muy ineficiente, ya que consume ciclos de CPU y realiza operaciones de E/S de disco de forma constante, incluso cuando no hay ninguna actividad en el directorio \cite{kerrisk2010linux}.
+    \item \textbf{Notificación por Eventos:} Los sistemas operativos modernos ofrecen APIs mucho más eficientes. En Linux, la API \texttt{inotify} permite que una aplicación se registre en el kernel para recibir notificaciones directas cuando ocurren eventos específicos en un directorio (como la creación, modificación o eliminación de un archivo). El kernel actúa como un observador y notifica a la aplicación de forma asíncrona, eliminando la necesidad de sondeos y reduciendo drásticamente el consumo de recursos \cite{love2005inotify}.
+\end{itemize}
+Para este proyecto, se adopta el enfoque de notificación por eventos, que es superior en rendimiento. Se utilizará la biblioteca de Python \texttt{watchdog}, la cual proporciona una API unificada y multiplataforma que abstrae las complejidades de las APIs nativas como \texttt{inotify} (Linux), FSEvents (macOS) o ReadDirectoryChangesW (Windows), garantizando una solución portable y eficiente \cite{watchdog2023docs}.
+
+\subsection{Tecnologías de Soporte para la Implementación}
+La construcción del \textit{middleware} se apoya en un conjunto de tecnologías estándar en la industria del software, seleccionadas por su robustez, portabilidad, y el amplio soporte de sus ecosistemas.
+
+\subsubsection{Python como Lenguaje de Scripting}
+Python ha sido seleccionado como el lenguaje de implementación para el demonio del \textit{middleware}. Las razones para esta elección son múltiples: su sintaxis limpia y legible facilita el desarrollo y el mantenimiento; su vasto ecosistema de bibliotecas de terceros incluye soporte nativo para todas las necesidades del proyecto (como el cliente de MictlanX y la biblioteca \texttt{watchdog}); y su naturaleza como lenguaje interpretado de alto nivel lo hace ideal para tareas de \textit{scripting} y automatización de sistemas \cite{python2023docs, fowler2021refactoring}.
+
+\subsubsection{Contenerización de Servicios con Docker}
+Para asegurar que el demonio del \textit{middleware} sea portable y que su despliegue sea consistente y reproducible en cualquier entorno, se utiliza la tecnología de contenedores \textbf{Docker}. Un contenedor empaqueta una aplicación junto con todas sus dependencias (bibliotecas, binarios, archivos de configuración) en una imagen estandarizada y portable \cite{merkel2014docker}.
+\par
+Un concepto crucial para esta implementación es el de los \textbf{volúmenes de Docker}. Por defecto, el sistema de archivos de un contenedor es efímero. Los volúmenes son el mecanismo que proporciona persistencia a los datos y, más importante aún, permiten compartir directorios entre el sistema anfitrión (\\textit{host}) y un contenedor. En esta implementación, se utilizará un volumen para mapear el directorio de salida de Nez del sistema anfitrión al sistema de archivos interno del contenedor del \textit{middleware}. Esto permite que el proceso \texttt{watchdog}, que se ejecuta dentro del contenedor, pueda monitorear eventos que ocurren en el exterior, en el sistema de archivos del \textit{host}, de manera transparente y eficiente \cite{poulton2020docker}.
+
+\subsubsection{Garantía de Integridad de Datos con SHA-256}
+Al transferir archivos entre sistemas, especialmente en un entorno distribuido, es vital asegurar que los datos no se corrompan durante la transmisión o el almacenamiento. El cliente de MictlanX, al igual que muchos sistemas de almacenamiento robustos, utiliza funciones \textit{hash} criptográficas para garantizar la integridad de los datos de extremo a extremo. Específicamente, se emplea el algoritmo \textbf{SHA-256} (Secure Hash Algorithm 256-bit).
+\par
+Este algoritmo, especificado en el estándar FIPS 180-4 del NIST (Instituto Nacional de Estándares y Tecnología de EE. UU.) \cite{nist2015fips180}, toma un bloque de datos de cualquier tamaño y produce una firma digital de longitud fija (256 bits) llamada \textit{hash}. Esta firma es, para todos los efectos prácticos, única para ese conjunto de datos específico. Cualquier cambio en los datos, por mínimo que sea, resultará en un \textit{hash} completamente diferente. El proceso de verificación es el siguiente: al subir un archivo, se calcula su \textit{hash}; al descargarlo o recuperarlo, se vuelve a calcular y se compara con el original. Si ambos \textit{hashes} coinciden, se tiene una garantía matemática muy alta de que el archivo no ha sido alterado o corrompido \cite{stallings2017cryptography}.

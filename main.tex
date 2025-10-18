@@ -1,5 +1,5 @@
+% !BIB program = biber
 % Actualizacion 2024: Logotipos de la UPV
-
 
 \documentclass[12pt]{article}
 \usepackage[left=2.5cm,top=2.0cm,right=2.5cm,bottom=3.0cm]{geometry}
@@ -54,29 +54,10 @@
 % Por defecto este documento utiliza el formato IEEEtr para formatear las referencias. Si algun asesor requiere formato APA, solo comente la siguiente linea y descomente la linea debajo. Tambien para que las citas funcionen de manera adecuada, el paquete label debe tener las opciones mostradas, o en su defecto, el año en el listado no lo muestra correctamente \usepackage[english, american]{babel}
 
 % Para utilizar el formato de citas IEEE y comentar los dos parrafos siguientes
-\usepackage[backend=bibtex,sorting=none]{biblatex}
+\usepackage[backend=biber,sorting=none]{biblatex}
 % Para utilizar el formato APA, sugiero comentar la linea anterior y descomentar las dos proximas lineas
 %\usepackage[backend=biber,style=apa]{biblatex}
 %\DeclareLanguageMapping{english}{american-apa}
-
-\makeatletter
-\DefineBibliographyExtras{spanish}{%
-  \setcounter{smartand}{1}%
-  \let\lbx@finalnamedelim=\lbx@es@smartand
-  \let\lbx@finallistdelim=\lbx@es@smartand
-}
-\renewbibmacro*{name:delim:apa:family-given}[1]{%
-  \ifnumgreater{\value{listcount}}{\value{liststart}}
-    {\ifboolexpr{
-       test {\ifnumless{\value{listcount}}{\value{liststop}}}
-       or
-       test \ifmorenames
-     }
-       {\printdelim{multinamedelim}}
-       {\lbx@finalnamedelim{#1}}}
-    {}}
-\makeatother
-
 
 % Estas lineas permiten romper los hipervinculos muy largos en las referencias!!!!
 \setcounter{biburllcpenalty}{7000}
@@ -117,9 +98,9 @@
  AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV) UNIDAD TAMAULIPAS}
 
 % NOTA: Dos diagonales juntas (\\) indican un saldo de linea. En este caso particular hay 2 (el titulo se ajusta a tres lineas, porque es muy largo. Hacer las adecuaciones pertinentes
-\newcommand{\NombreProyectoheader}     {Notificación de actualizaciones de la información \\en un sistema de información web de pacientes\\ hospitalizados a sus familiares del Sagrado Corazón de Jesus  }
+\newcommand{\NombreProyectoheader}     { }
 \newcommand{\nasesorempresaria}   {DR. JOSÉ LUIS GONZÁLEZ COMPEÁN}
-\newcommand{\fechaPortada}               {Junio de 2021}
+\newcommand{\fechaPortada}               {Septiembre de 2025}
 
 
 
@@ -132,7 +113,7 @@
 \newcommand{\iemph}[1]{\MakeTextUppercase{#1}}
 
 \pagestyle{fancy}
-\headheight 45pt
+\headheight 47.35004pt
 \fancyhead{} % Clear all header fields
 \fancyhead[L]{\includegraphics[height=1.00cm]{UTYP.png}}%
 %\fancyhead[C]{\begin{center}\NombreProyectoheader\end{center}}%

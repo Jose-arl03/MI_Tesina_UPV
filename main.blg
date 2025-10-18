@@ -1,68 +1,14 @@
-This is BibTeX, Version 0.99d
-Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
-The top-level auxiliary file: main.aux
-Reallocating 'name_of_file' (item size: 1) to 9 items.
-The style file: biblatex.bst
-Reallocating 'name_of_file' (item size: 1) to 9 items.
-Reallocating 'name_of_file' (item size: 1) to 2 items.
-Reallocating 'glb_str_end' (item size: 4) to 20 items.
-Reallocating 'glb_str_ptr' (item size: 4) to 20 items.
-Reallocating 'global_strs' (item size: 1) to 4000000 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'wiz_functions' (item size: 4) to 6000 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-Database file #1: main-blx.bib
-Database file #2: x.bib
-Biblatex version: 3.19
-Reallocating 'wiz_functions' (item size: 4) to 9000 items.
-Reallocating 'singl_function' (item size: 4) to 100 items.
-You've used 7 entries,
-            6399 wiz_defined-function locations,
-            1250 strings with 10524 characters,
-and the built_in function-call counts, 76360 in all, are:
-= -- 6949
-> -- 738
-< -- 149
-+ -- 2206
-- -- 301
-* -- 5718
-:= -- 9553
-add.period$ -- 0
-call.type$ -- 7
-change.case$ -- 78
-chr.to.int$ -- 42
-cite$ -- 12
-duplicate$ -- 6960
-empty$ -- 6608
-format.name$ -- 490
-if$ -- 15166
-int.to.chr$ -- 0
-int.to.str$ -- 14
-missing$ -- 0
-newline$ -- 271
-num.names$ -- 268
-pop$ -- 2407
-preamble$ -- 1
-purify$ -- 135
-quote$ -- 0
-skip$ -- 1139
-stack$ -- 0
-substring$ -- 14446
-swap$ -- 991
-text.length$ -- 158
-text.prefix$ -- 0
-top$ -- 1
-type$ -- 226
-warning$ -- 0
-while$ -- 1061
-width$ -- 0
-write$ -- 265
+[0] Config.pm:307> INFO - This is Biber 2.19
+[1] Config.pm:310> INFO - Logfile is 'main.blg'
+[282] biber-MSWIN64:340> INFO - === 
+[362] Biber.pm:419> INFO - Reading 'main.bcf'
+[647] Biber.pm:979> INFO - Found 30 citekeys in bib section 0
+[671] Biber.pm:4419> INFO - Processing section 0
+[694] Biber.pm:4610> INFO - Looking for bibtex file 'x.bib' for section 0
+[808] bibtex.pm:1713> INFO - LaTeX decoding ...
+[905] bibtex.pm:1519> INFO - Found BibTeX data source 'x.bib'
+[1251] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1252] UCollate.pm:68> INFO - Overriding locale 'es-ES' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1252] Biber.pm:4239> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'es-ES'
+[1305] bbl.pm:660> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[1350] bbl.pm:763> INFO - Output to main.bbl
