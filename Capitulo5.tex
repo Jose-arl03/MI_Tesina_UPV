@@ -1,0 +1,216 @@
+\section{Sistema Propuesto}
+
+En esta sección se detalla el diseño y la arquitectura del \textit{Nez-Daemon Watcher}, un servicio de software diseñado para funcionar como un **agente de ingesta de datos** para el **Espacio de Almacenamiento Virtual (VSS) de MictlanX**. El rol principal de este componente es actuar como una puerta de enlace robusta y desatendida entre un sistema de archivos local y el ecosistema de almacenamiento distribuido de MictlanX, centrándose en la eficiencia, la resiliencia y la automatización.
+
+\subsection{Análisis de Requerimientos}
+El análisis de requerimientos es la base sobre la cual se construye el sistema, definiendo las capacidades y restricciones del mismo.
+
+\subsubsection{Requerimientos Funcionales}
+Los requerimientos funcionales describen las operaciones principales que el sistema puede ejecutar para cumplir su misión como agente de ingesta.
+
+\begin{itemize}
+    \item \textbf{RF-01: Monitoreo de Directorio.} El sistema debe monitorear de forma continua y recursiva un directorio predefinido (\texttt{watch\_dir}). Esta es la principal fuente de eventos que dispara el flujo de trabajo de carga de archivos.
+    
+    \item \textbf{RF-02: Carga de Archivos a MictlanX.} Al detectar un nuevo archivo, el sistema debe orquestar su carga al VSS de MictlanX. Este proceso implica almacenar el archivo como un objeto atómico denominado \textbf{Ball} dentro de un contenedor lógico llamado \textbf{Bucket}. La carga debe incluir metadatos clave como el checksum SHA-256 (para integridad), el tamaño, y un factor de replicación (\texttt{replication\_factor}) que instruye a MictlanX sobre cuántas copias del "Ball" deben distribuirse entre los nodos de almacenamiento (\textbf{Peers}) para garantizar la redundancia.
+    
+    \item \textbf{RF-03: Verificación de Existencia.} Para optimizar el uso de la red y el almacenamiento, el sistema debe verificar si un "Ball" con la misma clave ya existe en el "Bucket" de MictlanX antes de iniciar una carga, evitando así la duplicación de datos.
+    
+    \item \textbf{RF-04: Gestión de Cuarentena.} Para asegurar la alta disponibilidad, si un archivo falla repetidamente durante el proceso de carga, debe ser movido a un directorio de "cuarentena", aislando los archivos problemáticos sin detener el servicio.
+    
+    \item \textbf{RF-05: Manejo de Solicitudes de Descarga.} El sistema debe ser capaz de procesar solicitudes de descarga desde MictlanX, actuando como un punto de acceso local al VSS. Los dos mecanismos soportados son a través de archivos \texttt{.mictlanx\_download} y un socket de dominio Unix para comunicación entre procesos (IPC).
+\end{itemize}
+
+\subsubsection{Requerimientos No Funcionales}
+Los requerimientos no funcionales definen las características de calidad y operativas que garantizan que el sistema sea eficiente y robusto.
+
+\begin{itemize}
+    \item \textbf{RNF-01: Concurrencia.} El sistema debe procesar múltiples archivos de forma concurrente mediante un grupo de "trabajadores" asíncronos para maximizar el rendimiento.
+    
+    \item \textbf{RNF-02: Estabilidad de Archivo.} Antes de procesar un archivo, el sistema debe esperar un breve período para asegurar que la operación de escritura ha finalizado por completo, evitando así la ingesta de datos corruptos o incompletos.
+    
+    \item \textbf{RNF-03: Resiliencia.} Las operaciones de red deben ser resilientes a fallos transitorios, utilizando una estrategia de reintentos con retroceso exponencial para las llamadas a la API de MictlanX.
+    
+    \item \textbf{RNF-04: Configurabilidad.} Siguiendo la metodología de 12-Factores, la configuración del sistema (rutas, URI del Router de MictlanX, etc.) debe ser externa al código y gestionada mediante variables de entorno.
+    
+    \item \textbf{RNF-05: Portabilidad.} El sistema está empaquetado como una imagen Docker \cite{merkel2014docker}, garantizando un entorno de ejecución consistente y simplificando su despliegue.
+\end{itemize}
+
+\subsection{El Ecosistema de Almacenamiento MictlanX}
+Para comprender el rol y el diseño del \textit{Nez-Daemon Watcher}, es fundamental primero describir el sistema de almacenamiento con el que se integra. MictlanX no es un sistema de almacenamiento monolítico, sino un **Espacio de Almacenamiento Virtual (VSS)**, una abstracción programable sobre un conjunto de recursos de almacenamiento distribuidos. Su propósito es ofrecer una plataforma de almacenamiento flexible, elástica y resiliente.
+
+La arquitectura de MictlanX, basada en el repositorio \texttt{mictlanx-service}, se compone de tres entidades principales que operan de forma desacoplada:
+\begin{itemize}
+    \item \textbf{Storage Peers (Pares de Almacenamiento):} Son los nodos de almacenamiento individuales y autónomos. Su única responsabilidad es guardar los datos físicos que se les entregan. En la terminología de MictlanX, la unidad atómica de datos es un \textbf{Ball}.
+    
+    \item \textbf{Storage Replica Management (SPM):} Es el cerebro o la "autoridad de metadatos" del ecosistema. El SPM es un subsistema distribuido que mantiene un registro global del estado del clúster. Sabe qué Peers están activos, qué "Balls" existen, en qué "Peers" reside cada réplica de un "Ball", y cómo están organizados lógicamente dentro de contenedores llamados \textbf{Buckets}.
+    
+    \item \textbf{Router (Enrutador):} Es el único punto de entrada y el orquestador de operaciones de entrada/salida (I/O) para todo el VSS. Los clientes, como el \textit{Nez-Daemon Watcher}, no interactúan directamente con los Peers o el SPM. Toda la comunicación se realiza a través de la API del Router.
+\end{itemize}
+
+Cuando el Watcher necesita cargar un archivo, se comunica con el Router. El Router, a su vez, consulta al SPM para tomar decisiones inteligentes sobre dónde y cómo almacenar el archivo (por ejemplo, seleccionando los Peers menos cargados y asegurando el factor de replicación solicitado). Una vez tomada la decisión, el Router guía al cliente para que complete la transferencia de datos. Esta arquitectura desacoplada, que separa la gestión de metadatos (el "plano de control" del SPM) de las operaciones de datos (el "plano de datos" del Router y los Peers), es lo que le da a MictlanX su escalabilidad y flexibilidad. El \textit{Nez-Daemon Watcher} actúa, por tanto, como un cliente especializado que traduce eventos del sistema de archivos en operaciones complejas dentro de este ecosistema distribuido.
+
+\subsection{Arquitectura del Sistema}
+La arquitectura del \textit{Nez-Daemon Watcher}, descrita en esta sección, está diseñada específicamente para funcionar como un componente de borde (edge component) eficiente y robusto para el VSS de MictlanX. Su diseño modular y orientado a eventos le permite abstraer la complejidad del ecosistema de almacenamiento y operar de forma autónoma. La Figura \ref{fig:arquitectura_watcher} ilustra la interacción entre sus componentes internos.
+
+\begin{figure}[h]
+    \centering
+    \fbox{\begin{minipage}{0.8\textwidth}
+        \centering \vspace{2cm} \textbf{Diagrama de Arquitectura del Sistema} \vspace{2cm}
+    \end{minipage}}
+    \caption{Diagrama de alto nivel de la arquitectura del Watcher.}
+    \label{fig:arquitectura_watcher}
+\end{figure}
+
+\subsubsection{Componentes del Watcher}
+\begin{itemize}
+    \item \textbf{Orquestador Principal (\texttt{watcher.py}):} Inicia y supervisa todos los componentes. Realiza una comprobación de salud inicial contra el Router de MictlanX antes de empezar a operar.
+    
+    \item \textbf{Observador del Sistema de Archivos (\texttt{NewFileHandler}):} Utiliza \texttt{watchdog} \cite{watchdog2023docs} para detectar eventos y actúa como un puente hacia el bucle de eventos asíncrono de la aplicación.
+    
+    \item \textbf{Cola de Tareas (\texttt{asyncio.Queue}):} Búfer central que desacopla la detección de eventos del procesamiento, permitiendo al sistema gestionar picos de trabajo.
+    
+    \item \textbf{Trabajadores (\texttt{worker}):} Tareas asíncronas que consumen eventos de la cola y ejecutan la lógica de negocio.
+    
+    \item \textbf{Módulo de Operaciones MictlanX (\texttt{mictlanx\_ops.py}):} Abstrae la comunicación con el Router de MictlanX. Su función más importante es implementar el proceso de carga en dos fases dictado por la arquitectura de MictlanX.
+    
+    \item \textbf{Servidor de Socket (\texttt{socket\_server.py}):} Expone un socket de dominio Unix para recibir órdenes de otros procesos locales.
+\end{itemize}
+
+\subsection{Diagrama de Contexto}
+El diagrama de contexto, mostrado en la Figura \ref{fig:contexto}, posiciona al sistema como un servicio intermediario entre el entorno local y el VSS de MictlanX.
+
+\begin{figure}[h]
+    \centering
+    \fbox{\begin{minipage}{0.8\textwidth}
+        \centering \vspace{2cm} \textbf{Diagrama de Contexto} \vspace{2cm}
+    \end{minipage}}
+    \caption{Diagrama de Contexto del Sistema Watcher.}
+    \label{fig:contexto}
+\end{figure}
+
+Las entidades externas son:
+\begin{itemize}
+    \item \textbf{Usuario/Administrador:} Inicia y configura el servicio.
+    \item \textbf{Sistema de Archivos:} El entorno local que el watcher monitorea.
+    \item \textbf{Router de MictlanX (VSS):} El punto de entrada al sistema de almacenamiento distribuido, con el que se comunica vía API REST.
+    \item \textbf{Aplicación Cliente Local:} Proceso local que solicita descargas vía socket.
+\end{itemize}
+
+\subsection{Diagramas de Casos de Uso}
+Los casos de uso definen las interacciones funcionales clave. La Figura \ref{fig:casos_uso} muestra su representación gráfica.
+
+\begin{figure}[h]
+    \centering
+    \fbox{\begin{minipage}{0.8\textwidth}
+        \centering \vspace{2cm} \textbf{Diagrama de Casos de Uso} \vspace{2cm}
+    \end{minipage}}
+    \caption{Diagrama de Casos de Uso.}
+    \label{fig:casos_uso}
+\end{figure}
+
+\subsection{Diagramas UML}
+El diagrama de secuencia en la Figura \ref{fig:diagrama_secuencia} detalla el flujo de la carga de un archivo, evidenciando la comunicación exclusiva con el Router de MictlanX.
+
+\begin{figure}[h]
+    \centering
+    \fbox{\begin{minipage}{0.8\textwidth}
+        \centering \vspace{2cm} \textbf{Diagrama de Secuencia: Carga de Archivo} \vspace{2cm}
+    \end{minipage}}
+    \caption{Diagrama de Secuencia para la carga de un nuevo archivo.}
+    \label{fig:diagrama_secuencia}
+\end{figure}
+
+La secuencia es:
+\begin{enumerate}
+    \item El \texttt{Observador} detecta un archivo y encola una tarea.
+    \item Un \texttt{Trabajador} toma la tarea.
+    \item El \texttt{Trabajador} invoca al módulo de \texttt{Operaciones MictlanX}.
+    \item El módulo de operaciones envía una petición de registro de metadatos al \texttt{Router de MictlanX}. El Router consulta al SPM y devuelve un ID de tarea.
+    \item El módulo de operaciones envía el contenido del archivo al \texttt{Router}, usando el ID de tarea. El Router gestiona la transferencia a los Peers apropiados.
+\end{enumerate}
+
+\subsection{Diseño de Entradas y Salidas}
+Las entradas y salidas del sistema se definen a nivel de datos y protocolos.
+
+\subsubsection{Entradas del Sistema}
+\begin{itemize}
+    \item \textbf{Archivos en Directorio:} Archivos binarios de cualquier tipo.
+    \item \textbf{Mensajes de Socket:} Cadenas de texto UTF-8 con la ruta del recurso a descargar.
+    \item \textbf{Variables de Entorno:} Pares clave-valor para la configuración.
+\end{itemize}
+
+\subsubsection{Salidas del Sistema}
+\begin{itemize}
+    \item \textbf{Llamadas a la API del Router de MictlanX:} Peticiones HTTP POST a los endpoints \texttt{/api/v4/buckets/metadata} y \texttt{/api/v4/buckets/data/\{task\_id\}}.
+    \item \textbf{Archivos en Cuarentena:} Archivos movidos al directorio de cuarentena.
+    \item \textbf{Registros de Actividad (Logs):} Salida de texto estructurada en la consola.
+    \item \textbf{Archivos Descargados:} Archivos escritos en el disco local.
+\end{itemize}
+
+\subsection{Algoritmos Principales}
+A continuación se describen los algoritmos que definen el flujo de control y la lógica de negocio del Watcher.
+
+\subsubsection{Algoritmo del Trabajador Principal}
+Este algoritmo representa el bucle de eventos de cada trabajador, responsable de consumir tareas y despacharlas a la lógica apropiada.
+
+\begin{algorithm}
+\caption{Procesamiento de Tareas del Trabajador}
+\begin{algorithmic}[1]
+\While{el sistema está activo}
+    \State \texttt{tarea} $\leftarrow$ esperar y obtener de \texttt{ColaDeTareas}
+    \If{\texttt{tarea} es un evento de archivo}
+        \State \texttt{ruta\_archivo} $\leftarrow$ obtener ruta de \texttt{tarea}
+        \If{\texttt{ruta\_archivo} es una solicitud de descarga}
+            \State \Call{procesarSolicitudDeDescarga}{\texttt{ruta\_archivo}}
+        \Else
+            \State \Call{esperarEstabilidadDeArchivo}{\texttt{ruta\_archivo}}
+            \If{\Call{archivoYaExisteEnMictlanX}{\texttt{ruta\_archivo}}}
+                \State registrar "Archivo ya existe, omitiendo."
+                \State \textbf{continue}
+            \EndIf
+            \If{\Call{subirArchivoAMictlanX}{\texttt{ruta\_archivo}} es exitoso}
+                 \State registrar "Archivo subido con éxito."
+            \Else
+                 \State registrar "Fallo en la carga del archivo."
+                 \State \Call{moverArchivoACuarentena}{\texttt{ruta\_archivo}}
+            \EndIf
+        \EndIf
+    \ElsIf{\texttt{tarea} es una solicitud de socket}
+        \State \texttt{ruta\_descarga} $\leftarrow$ obtener ruta de \texttt{tarea}
+        \State \Call{procesarDescargaDesdeSocket}{\texttt{ruta\_descarga}}
+    \EndIf
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\subsubsection{Algoritmo de Carga de Archivo a MictlanX}
+Este algoritmo es crucial, pues su diseño de dos pasos es una consecuencia directa de la arquitectura desacoplada de MictlanX. La separación del registro de metadatos y la carga de datos permite al Router coordinar la replicación y preparar a los Peers antes de recibir el contenido, aumentando la escalabilidad y robustez del VSS.
+
+\begin{algorithm}
+\caption{Carga de Archivo a MictlanX}
+\begin{algorithmic}[1]
+\Procedure{subirArchivoAMictlanX}{\texttt{ruta\_archivo}}
+    \State \texttt{checksum} $\leftarrow$ \Call{calcularSHA256}{\texttt{ruta\_archivo}}
+    \State \texttt{tamaño} $\leftarrow$ \Call{obtenerTamaño}{\texttt{ruta\_archivo}}
+    \State \texttt{clave} $\leftarrow$ \Call{sanitizarRutaRelativa}{\texttt{ruta\_archivo}}
+    
+    \State \texttt{metadatos} $\leftarrow$ crear estructura con \texttt{bucket\_id}, \texttt{clave}, \texttt{checksum}, \texttt{tamaño}, \texttt{replication\_factor}
+    
+    \State \textit{// Paso 1: Registrar metadatos en el Router}
+    \State \texttt{respuesta\_meta} $\leftarrow$ \Call{POST}{"/api/v4/buckets/metadata", \texttt{metadatos}}
+    \If{\texttt{respuesta\_meta} es un error}
+        \State \Return \texttt{falso}
+    \EndIf
+    \State \texttt{id\_tarea} $\leftarrow$ \Call{obtenerID}{\texttt{respuesta\_meta}}
+    
+    \State \textit{// Paso 2: Subir contenido de datos al Router usando el ID de tarea}
+    \State \texttt{respuesta\_datos} $\leftarrow$ \Call{POST}{"/api/v4/buckets/data/\texttt{id\_tarea}", \texttt{ruta\_archivo}}
+    \If{\texttt{respuesta\_datos} es un error}
+        \State \Return \texttt{falso}
+    \EndIf
+    
+    \State \Return \texttt{verdadero}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+

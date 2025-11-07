@@ -1,0 +1,12 @@
+Proyecto/watcher/
+__pycache__/
+*.pyc
+*.aux
+*.bcf
+*.loa
+*.lof
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
