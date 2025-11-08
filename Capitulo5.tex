@@ -143,6 +143,65 @@ Las entradas y salidas del sistema se definen a nivel de datos y protocolos.
     \item \textbf{Archivos Descargados:} Archivos escritos en el disco local.
 \end{itemize}
 
+\subsection{Justificación de Decisiones de Diseño}
+La arquitectura y tecnología de un proyecto son el resultado de una serie de decisiones deliberadas para resolver un problema específico. A continuación, se justifican las elecciones más importantes en el desarrollo del \textit{Nez-Daemon Watcher}.
+
+\subsubsection{Elección de Python y Asyncio}
+Para un servicio cuya principal función es esperar y gestionar operaciones de entrada/salida (I/O) —como monitorear el sistema de archivos y realizar peticiones de red—, un modelo de concurrencia asíncrono es ideal. Python, a través de su ecosistema \texttt{asyncio}, permite manejar miles de operaciones concurrentes con un solo hilo, evitando la sobrecarga de memoria y conmutación de contexto asociada al multithreading tradicional. Esto se traduce en un sistema altamente eficiente y escalable para tareas I/O-bound.
+
+\subsubsection{Uso de una Arquitectura Basada en Cola de Tareas}
+La decisión de usar una cola de tareas (\texttt{asyncio.Queue}) como intermediario entre los productores de eventos y los consumidores (trabajadores) es fundamental para la robustez del sistema. Esta arquitectura desacoplada ofrece varias ventajas:
+\begin{itemize}
+    \item \textbf{Absorción de Picos:} Si se crean cientos de archivos simultáneamente, la cola los almacena de forma segura, permitiendo que los trabajadores los procesen a su propio ritmo sin perder ningún evento.
+    \item \textbf{Resiliencia:} Si el proceso de un trabajador falla, solo afecta a la tarea actual. El resto de las tareas permanecen seguras en la cola, listas para ser procesadas.
+    \item \textbf{Escalabilidad:} Es fácil aumentar la capacidad del sistema simplemente añadiendo más trabajadores que consuman de la misma cola.
+\end{itemize}
+
+\subsubsection{Elección de Socket de Dominio Unix para IPC}
+Para la comunicación entre procesos (IPC) en la misma máquina, se eligió un socket de dominio Unix en lugar de un socket TCP/IP sobre localhost. Esta decisión se basa en que los sockets Unix son más eficientes y seguros: no tienen la sobrecarga del stack de red TCP/IP (handshakes, cabeceras, etc.) y su acceso puede ser controlado mediante los permisos del sistema de archivos, limitando qué procesos pueden comunicarse con el watcher.
+
+\subsection{Seguridad del Sistema}
+Aunque el watcher opera como un servicio de backend, se implementaron varias medidas para asegurar su operación.
+\begin{itemize}
+    \item \textbf{Comunicación Segura:} Se asume que la comunicación con el Router de MictlanX se realiza a través de HTTPS, protegiendo los datos en tránsito. La biblioteca \texttt{httpx} utilizada soporta TLS de forma nativa.
+    \item \textbf{Gestión de la Configuración:} Siguiendo las mejores prácticas, no se almacenan secretos (como tokens de API) en el código. La dirección y posibles credenciales para MictlanX se gestionan a través de variables de entorno, separando la configuración del código.
+    \item \textbf{Sanitización de Claves:} La función \texttt{sanitize\_key} elimina caracteres no alfanuméricos de las rutas de los archivos antes de usarlas como claves en MictlanX. Esto previene ataques de "path traversal" y asegura que las claves sean siempre válidas para la API de MictlanX.
+    \item \textbf{Permisos del Sistema de Archivos:} El servicio opera con los mínimos privilegios necesarios. Solo requiere permisos de lectura sobre el directorio vigilado y permisos de escritura sobre los directorios de descarga y de cuarentena.
+\end{itemize}
+
+\subsection{Configuración y Despliegue}
+La flexibilidad del sistema se basa en su configuración externa y su empaquetado para un despliegue sencillo.
+
+\subsubsection{Variables de Entorno}
+El comportamiento del watcher se controla mediante las siguientes variables de entorno:
+\begin{itemize}
+    \item \texttt{LOG\_LEVEL}: Define el nivel de detalle de los logs (ej. INFO, DEBUG).
+    \item \texttt{WATCH\_DIRECTORY}: Ruta absoluta al directorio que será monitoreado.
+    \item \texttt{QUARANTINE\_DIRECTORY}: Ruta absoluta al directorio donde se moverán los archivos fallidos.
+    \item \texttt{MICTLANX\_URI}: El URI completo para conectarse al Router de MictlanX, incluyendo protocolo, host, puerto y credenciales si son necesarias.
+    \item \texttt{BUCKET\_ID}: El nombre del "Bucket" en MictlanX donde se almacenarán los archivos.
+    \item \texttt{REPLICATION\_FACTOR}: Número de réplicas que MictlanX debe crear para cada archivo.
+    \item \texttt{MAX\_WORKERS}: Número de trabajadores concurrentes para procesar la cola de tareas.
+\end{itemize}
+
+\subsubsection{Despliegue con Docker}
+El `Dockerfile` del proyecto define el proceso de empaquetado. Los pasos más relevantes son:
+\begin{enumerate}
+    \item Se utiliza una imagen base oficial de Python (\texttt{python:3.12-slim}) para minimizar el tamaño.
+    \item Se copia y se instala primero la dependencia local \texttt{mictlanx-client}, ya que es un prerrequisito.
+    \item Se instalan el resto de las dependencias listadas en \texttt{requirements.txt}.
+    \item Finalmente, se copia el código fuente del watcher y se define el comando de inicio (\texttt{CMD}).
+\end{enumerate}
+Para ejecutar el servicio, se utilizaría un comando \texttt{docker run} que monte los directorios locales como volúmenes y pase la configuración a través de variables de entorno.
+
+\subsection{Manejo de Errores y Resiliencia}
+Un aspecto clave del diseño es la capacidad del sistema para operar de forma desatendida y recuperarse de problemas comunes.
+\begin{itemize}
+    \item \textbf{Comprobación de Salud Inicial:} Antes de iniciar el bucle principal, el watcher realiza una llamada de "health check" al Router de MictlanX. Si el servicio de almacenamiento no está disponible, el watcher termina con un error, evitando operar en un estado degradado.
+    \item \textbf{Reintentos con Retroceso Exponencial:} Todas las llamadas a la API de MictlanX están envueltas en una lógica de reintentos automáticos. Si una llamada falla por un problema de red transitorio, el sistema esperará un tiempo (que aumenta exponencialmente con cada fallo) antes de reintentar, hasta un máximo de intentos configurado.
+    \item \textbf{Mecanismo de Cuarentena:} Si un archivo falla todos los reintentos, se considera "venenoso" (poison pill). En lugar de bloquear la cola para siempre, el archivo es movido a un directorio de cuarentena. Esto libera al sistema para que continúe procesando otras tareas y permite que un administrador investigue el problema de forma manual.
+\end{itemize}
+
 \subsection{Algoritmos Principales}
 A continuación se describen los algoritmos que definen el flujo de control y la lógica de negocio del Watcher.
 
@@ -179,6 +238,9 @@ Este algoritmo representa el bucle de eventos de cada trabajador, responsable de
 \end{algorithmic}
 \end{algorithm}
 
+\subsubsection{Justificación y Utilidad del Patrón Worker}
+Este algoritmo, basado en el patrón de productor-consumidor, es el motor que impulsa toda la lógica de negocio del \textit{Nez-Daemon Watcher}. Su diseño responde a la necesidad de gestionar eventos que ocurren en momentos impredecibles y concurrentes, como la creación de archivos o las peticiones por socket. Un diseño secuencial simple se bloquearía con la primera tarea de larga duración, volviéndose incapaz de responder a nuevos eventos. La solución implementada resuelve esto mediante un bucle de eventos con una cola de tareas. El bucle infinito (`While el sistema está activo`) establece al trabajador como un proceso persistente, siempre listo para operar. El punto más crítico es la línea `tarea <- esperar y obtener de ColaDeTareas`, donde la cola actúa como un búfer que absorbe los picos de trabajo y desacopla la detección de eventos de su procesamiento. Los productores (el observador de archivos y el servidor de socket) simplemente añaden tareas a la cola sin esperar a que se completen. El bloque `If/ElsIf` funciona como un enrutador que despacha cada tipo de tarea a la lógica correspondiente, permitiendo que el mismo pool de trabajadores maneje distintas operaciones. Al ejecutar múltiples instancias de este algoritmo en paralelo, el sistema logra la concurrencia, maximizando el uso de recursos. Este patrón transforma un flujo de eventos caótico en un proceso de trabajo ordenado, concurrente y robusto.
+
 \subsubsection{Algoritmo de Carga de Archivo a MictlanX}
 Este algoritmo es crucial, pues su diseño de dos pasos es una consecuencia directa de la arquitectura desacoplada de MictlanX. La separación del registro de metadatos y la carga de datos permite al Router coordinar la replicación y preparar a los Peers antes de recibir el contenido, aumentando la escalabilidad y robustez del VSS.
 
@@ -206,7 +268,10 @@ Este algoritmo es crucial, pues su diseño de dos pasos es una consecuencia dire
     \EndIf
     
     \State \Return \texttt{verdadero}
-\EndProcedure
+
 \end{algorithmic}
 \end{algorithm}
+
+\subsubsection{Justificación y Utilidad del Proceso de Carga en Dos Pasos}
+A primera vista, el algoritmo para cargar un archivo podría parecer innecesariamente complejo, ya que una simple petición HTTP PUT con el contenido del archivo parecería suficiente. Sin embargo, este diseño de dos pasos (primero metadatos, luego datos) es una decisión deliberada y crucial que resuelve problemas fundamentales inherentes a los sistemas de almacenamiento distribuido como MictlanX. El problema principal a resolver es cómo cargar un archivo de forma fiable a un sistema complejo donde el destino final no se conoce de antemano y los errores de red son comunes. La solución implementada es un protocolo que separa la "negociación" (plano de control) de la "transferencia" (plano de datos). La primera fase, el registro de metadatos, actúa como el plano de control. La llamada a la API (`POST /api/v4/buckets/metadata`) no transfiere el archivo, sino que comunica la \textit{intención} de subirlo con ciertas características (nombre, tamaño, checksum, factor de replicación). Esta negociación permite al Router de MictlanX realizar operaciones críticas de forma anticipada, como la validación de permisos y la planificación del almacenamiento, donde consulta al SPM para seleccionar los Peers más adecuados. Una ventaja clave de este paso es la capacidad de **fallar rápido (fail-fast)**. Si alguna condición previa no se cumple, el Router devuelve un error inmediato, y el Watcher evita el coste de transferir un archivo que sería rechazado, ahorrando tiempo y ancho de banda. La segunda fase, la carga de datos, representa el plano de datos. Solo si el primer paso tiene éxito, el Router devuelve un "ID de tarea" que representa una transacción de carga aprobada. La segunda llamada a la API (`POST /api/v4/buckets/data/\{id\_tarea\}`) utiliza este identificador para transferir el contenido binario. Este enfoque dota al proceso de una atomicidad simplificada, ya que los datos solo se envían después de que el sistema ha confirmado formalmente que está listo para recibirlos, previniendo estados inconsistentes. Además, esta separación de responsabilidades es lo que permite la escalabilidad del ecosistema MictlanX, optimizando la gestión de metadatos y la transferencia de datos de forma independiente.
 

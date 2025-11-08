@@ -73,7 +73,7 @@ Esta estructura garantiza que cada pieza sea un componente autónomo y portable,
 \subsubsection{El Rompecabezas (R): Componiendo Flujos de Trabajo}
 Un \textbf{Rompecabezas (R)} es una estructura de procesamiento de alto nivel que se crea al acoplar un conjunto de piezas. La lógica de composición se define mediante un \textbf{Grafo Acíclico Dirigido (DAG)}, donde los nodos del grafo son las piezas y los vértices representan las dependencias y el flujo de datos entre ellas. Un rompecabezas define un flujo de trabajo completo, desde una o más fuentes de datos hasta uno o más destinos, orquestando la ejecución de las piezas que lo componen.
 
-\subsubsection{El Metarompecabezas ($\Omega$): Interoperabilidad Inter-Sistemas}
+\part{title}\subsubsection{El Metarompecabezas ($\Omega$): Interoperabilidad Inter-Sistemas}
 El modelo PuzzleMesh escala el concepto de composición al introducir el \textbf{Metarompecabezas ($\Omega$)}. Un metarompecabezas se construye encadenando múltiples rompecabezas. Esta capacidad es la que permite modelar flujos de trabajo extremadamente complejos que pueden cruzar fronteras departamentales, organizacionales o de infraestructura. Por ejemplo, un metarompecabezas podría modelar un flujo donde los datos se originan en el sistema A (representado por un rompecabezas), se procesan en el sistema B (otro rompecabezas) y finalmente se consumen en el sistema C (un tercer rompecabezas). Esta abstracción es clave para lograr una interoperabilidad real y a gran escala \cite{sanchez2022puzzlemesh}.
 
 \subsection{Middleware como Catalizador de la Interoperabilidad}
