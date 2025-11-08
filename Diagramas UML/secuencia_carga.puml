@@ -1,0 +1,59 @@
+@startuml
+!theme vibrant
+
+title Diagrama de Secuencia - Carga de Archivo (Robusto)
+
+participant "Observador" as Observer
+queue "Cola de Tareas" as Queue
+participant "Trabajador" as Worker
+participant "Op. MictlanX" as MictlanXOps
+participant "Router MictlanX" as Router
+
+autonumber
+
+Observer -> Queue : Encolar Tarea (Archivo Nuevo)
+activate Queue
+
+activate Worker
+Worker -> Queue : Obtener Tarea
+deactivate Queue
+
+Worker -> MictlanXOps : subirArchivoAMictlanX(ruta_archivo)
+activate MictlanXOps
+
+' La llamada a la API se hace ANTES del bloque alt
+MictlanXOps -> Router : POST /api/v4/buckets/metadata
+activate Router
+
+alt Flujo Exitoso
+
+    Router --> MictlanXOps : 200 OK (ID de Tarea)
+
+    MictlanXOps -> Router : POST /api/v4/buckets/data/{id_tarea}
+    Router --> MictlanXOps : 200 OK
+    deactivate Router
+
+    MictlanXOps --> Worker : Retorna Éxito
+    
+    Worker -> Worker : Registrar "Éxito" en log
+    ' El ACK confirma que la tarea se procesó y puede ser eliminada
+    Worker -> Queue : task_done() (ACK)
+
+else Flujo de Error (ej. fallo en registro de metadatos)
+
+    Router --> MictlanXOps : 500 Internal Server Error
+    deactivate Router
+
+    MictlanXOps --> Worker : Retorna Fallo (con Error)
+
+    Worker -> Worker : Registrar "Fallo" en log
+    ' El NACK informa a la cola que la tarea falló,
+    ' permitiendo un reintento o moverla a una cola de errores.
+    Worker -> Queue : Rechazar Tarea (NACK)
+
+end
+
+deactivate MictlanXOps
+deactivate Worker
+
+@enduml

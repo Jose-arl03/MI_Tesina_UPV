@@ -1,0 +1,29 @@
+@startuml
+!theme vibrant
+
+title Diagrama de Contexto del Sistema (Corregido)
+
+' Actores Humanos
+actor "Administrador" as Admin
+actor "Usuario" as User
+
+' Sistemas Externos
+rectangle "Aplicación Cliente Local" as LocalApp
+database "Sistema de Archivos" as FileSystem
+cloud "Router de MictlanX (VSS)" as MictlanX
+
+' Sistema Principal
+rectangle "Nez-Daemon Watcher" as Watcher
+
+' Interacciones
+Admin -down-> Watcher : Configura e Inicia
+User -left-> LocalApp : Opera
+
+LocalApp -down-> Watcher : Solicita Descarga (vía Socket)
+
+Watcher -right-> FileSystem : Monitorea Directorio
+Watcher -right-> FileSystem : Escribe Archivos Descargados
+
+Watcher -up-> MictlanX : Carga y Descarga Archivos\n(vía API REST)
+
+@enduml

@@ -1,0 +1,39 @@
+@startuml
+!theme vibrant
+
+title Diagrama de Casos de Uso (Versión con flechas invertidas)
+
+left to right direction
+
+' Actores
+actor "Administrador" as Admin
+rectangle "Aplicación Local" as LocalApp
+
+' Casos de Uso
+rectangle "Nez-Daemon Watcher" {
+  usecase "Monitorear Directorio" as UCMonitor
+  usecase "Cargar Archivo" as UCCargar
+  usecase "Verificar Existencia" as UCVerificar
+  usecase "Mover a Cuarentena" as UCCuarentena
+  usecase "Descargar Recurso" as UCDescargar
+}
+
+' Relaciones con Actores
+Admin -up-> UCMonitor
+LocalApp -down-> UCDescargar
+
+' --- SECCIÓN CORREGIDA ---
+' Invirtiendo la dirección de las flechas <<include>> según el feedback visual.
+' La flecha A <. B dibuja la punta en A.
+
+' Lógica deseada: Monitorear -> Cargar. Código invertido:
+UCCargar <. UCMonitor : <<include>>
+
+' Lógica deseada: Cargar -> Verificar. Código invertido:
+UCVerificar <. UCCargar : <<include>>
+
+
+' La flecha <<extend>> se mantiene, ya que la reportaste como correcta.
+UCCuarentena .> UCCargar : <<extend>>
+
+@enduml

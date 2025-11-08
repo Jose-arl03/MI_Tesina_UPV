@@ -1,0 +1,32 @@
+@startuml
+!theme vibrant
+
+title Diagrama de Arquitectura del Sistema Watcher
+
+package "Nez-Daemon Watcher" {
+  component [Orquestador Principal\n(watcher.py)] as Main
+  component [Servidor de Socket\n(socket_server.py)] as Socket
+  component [Observador de Archivos\n(NewFileHandler)] as Observer
+  queue "Cola de Tareas\n(asyncio.Queue)" as Queue
+  component [Pool de Trabajadores\n(worker)] as Workers
+  component [Módulo de Operaciones\nMictlanX (mictlanx_ops.py)] as MictlanXOps
+
+  Main --> Observer : Inicia
+  Main --> Socket : Inicia
+  Main --> Workers : Inicia
+  
+  Observer -> Queue : Encola Tarea (Archivo Nuevo)
+  Socket -> Queue : Encola Tarea (Descarga)
+  
+  Workers -> Queue : Obtiene Tarea
+  Workers -> MictlanXOps : Ejecuta Operación
+}
+
+cloud "Servicio MictlanX (Router)" as MictlanXRouter
+database "Sistema de Archivos" as FileSystem
+
+MictlanXOps -right-> MictlanXRouter : API REST (subir/descargar)
+Observer -left-> FileSystem : Monitorea (watchdog)
+Workers -> FileSystem : Mueve a cuarentena / Escribe descargas
+
+@enduml
