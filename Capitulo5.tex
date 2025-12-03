@@ -55,7 +55,7 @@ La arquitectura del \textit{Nez-Daemon Watcher}, descrita en esta sección, est�
 \begin{figure}[h]
     \centering
     % Código fuente en Diagramas UML/arquitectura.puml
-    \includegraphics[width=\textwidth]{Diagramas UML/arquitectura.png}
+    \includegraphics[width=1.12\textwidth, height=11.5cm]{Diagramas UML/arquitectura.png}
     \caption{Diagrama de alto nivel de la arquitectura del Watcher.}
     \label{fig:arquitectura_watcher}
 \end{figure}
@@ -81,7 +81,7 @@ El diagrama de contexto, mostrado en la Figura \ref{fig:contexto}, posiciona al 
 \begin{figure}[h]
     \centering
     % Código fuente en Diagramas UML/contexto.puml
-    \includegraphics[width=\textwidth]{Diagramas UML/contexto.png}
+    \includegraphics[width=1.1\textwidth]{Diagramas UML/contexto.png}
     \caption{Diagrama de Contexto del Sistema Watcher.}
     \label{fig:contexto}
 \end{figure}
@@ -98,11 +98,12 @@ Las entidades externas son:
 Los casos de uso definen las interacciones funcionales clave. La Figura \ref{fig:casos_uso} muestra su representación gráfica.
 
 \begin{figure}[h]
-    \centering
-    % Código fuente en Diagramas UML/casos_de_uso.puml
-    \includegraphics[width=0.8\textwidth]{Diagramas UML/casos_de_uso.png}
-    \caption{Diagrama de Casos de Uso.}
-    \label{fig:casos_uso}
+	\centering
+	% Código fuente en Diagramas UML/casos_de_uso.puml
+	% Se define ancho Y alto.
+	\includegraphics[width=1.02\textwidth, height=4.4cm]{Diagramas UML/casos_de_uso.png} 
+	\caption{Diagrama de Casos de Uso.}
+	\label{fig:casos_uso}
 \end{figure}
 
 \subsection{Diagramas UML}
@@ -111,7 +112,7 @@ El diagrama de secuencia en la Figura \ref{fig:diagrama_secuencia} detalla el fl
 \begin{figure}[h]
     \centering
     % Código fuente en Diagramas UML/secuencia_carga.puml
-    \includegraphics[width=\textwidth]{Diagramas UML/secuencia_carga.png}
+    \includegraphics[width=1.05\textwidth, height=10.9cm]{Diagramas UML/secuencia_carga.png}
     \caption{Diagrama de Secuencia para la carga de un nuevo archivo.}
     \label{fig:diagrama_secuencia}
 \end{figure}
@@ -206,10 +207,11 @@ Un aspecto clave del diseño es la capacidad del sistema para operar de forma de
 A continuación se describen los algoritmos que definen el flujo de control y la lógica de negocio del Watcher.
 
 \subsubsection{Algoritmo del Trabajador Principal}
-Este algoritmo representa el bucle de eventos de cada trabajador, responsable de consumir tareas y despacharlas a la lógica apropiada.
+El Algoritmo \ref{algo:worker} representa el bucle de eventos de cada trabajador, responsable de consumir tareas y despacharlas a la lógica apropiada.
 
 \begin{algorithm}
 \caption{Procesamiento de Tareas del Trabajador}
+\label{algo:worker}
 \begin{algorithmic}[1]
 \While{el sistema está activo}
     \State \texttt{tarea} $\leftarrow$ esperar y obtener de \texttt{ColaDeTareas}
@@ -242,10 +244,11 @@ Este algoritmo representa el bucle de eventos de cada trabajador, responsable de
 Este algoritmo, basado en el patrón de productor-consumidor, es el motor que impulsa toda la lógica de negocio del \textit{Nez-Daemon Watcher}. Su diseño responde a la necesidad de gestionar eventos que ocurren en momentos impredecibles y concurrentes, como la creación de archivos o las peticiones por socket. Un diseño secuencial simple se bloquearía con la primera tarea de larga duración, volviéndose incapaz de responder a nuevos eventos. La solución implementada resuelve esto mediante un bucle de eventos con una cola de tareas. El bucle infinito (`While el sistema está activo`) establece al trabajador como un proceso persistente, siempre listo para operar. El punto más crítico es la línea `tarea <- esperar y obtener de ColaDeTareas`, donde la cola actúa como un búfer que absorbe los picos de trabajo y desacopla la detección de eventos de su procesamiento. Los productores (el observador de archivos y el servidor de socket) simplemente añaden tareas a la cola sin esperar a que se completen. El bloque `If/ElsIf` funciona como un enrutador que despacha cada tipo de tarea a la lógica correspondiente, permitiendo que el mismo pool de trabajadores maneje distintas operaciones. Al ejecutar múltiples instancias de este algoritmo en paralelo, el sistema logra la concurrencia, maximizando el uso de recursos. Este patrón transforma un flujo de eventos caótico en un proceso de trabajo ordenado, concurrente y robusto.
 
 \subsubsection{Algoritmo de Carga de Archivo a MictlanX}
-Este algoritmo es crucial, pues su diseño de dos pasos es una consecuencia directa de la arquitectura desacoplada de MictlanX. La separación del registro de metadatos y la carga de datos permite al Router coordinar la replicación y preparar a los Peers antes de recibir el contenido, aumentando la escalabilidad y robustez del VSS.
+El Algoritmo \ref{algo:upload} es crucial, pues su diseño de dos pasos es una consecuencia directa de la arquitectura desacoplada de MictlanX. La separación del registro de metadatos y la carga de datos permite al Router coordinar la replicación y preparar a los Peers antes de recibir el contenido, aumentando la escalabilidad y robustez del VSS.
 
 \begin{algorithm}
 \caption{Carga de Archivo a MictlanX}
+\label{algo:upload}
 \begin{algorithmic}[1]
 \Procedure{subirArchivoAMictlanX}{\texttt{ruta\_archivo}}
     \State \texttt{checksum} $\leftarrow$ \Call{calcularSHA256}{\texttt{ruta\_archivo}}
@@ -268,7 +271,7 @@ Este algoritmo es crucial, pues su diseño de dos pasos es una consecuencia dire
     \EndIf
     
     \State \Return \texttt{verdadero}
-
+\EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
