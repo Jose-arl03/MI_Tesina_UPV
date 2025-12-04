@@ -93,3 +93,38 @@ Una vez validado el flujo de carga, las pruebas se extendieron a los mecanismos 
 \end{figure}
 
 Finalmente, la Figura \ref{fig:socket_request} demuestra la validez del mecanismo de IPC. En ella se aprecia cómo una aplicación cliente establece una conexión con el socket \texttt{/tmp/nez\_watcher.sock} y envía una petición para descargar un archivo específico. El texto de la petición es procesado por el servidor de socket del Watcher, que lo encola para que un \textit{worker} lo gestione. Esta prueba es fundamental, ya que justifica que el Watcher no es un servicio pasivo, sino que puede ser comandado por otras aplicaciones del ecosistema Nez, cumpliendo su rol como una pasarela de servicios de almacenamiento local.
+
+\subsection{Problemas Encontrados y Correcciones}
+Durante las primeras etapas de prueba del \textit{Nez-Daemon Watcher}, se identificó un problema recurrente relacionado con la carga de archivos al Espacio de Almacenamiento Virtual (VSS) de MictlanX. Aunque el servicio detectaba correctamente los nuevos archivos, las operaciones de subida fallaban intermitentemente.
+
+Tras una investigación exhaustiva, se determinó que la causa raíz radicaba en la presencia de caracteres especiales en las "keys" (nombres de archivo o rutas relativas) que se generaban a partir de los archivos monitorizados. La API de MictlanX, al igual que muchos sistemas de almacenamiento, impone restricciones sobre los caracteres permitidos en los identificadores de objetos para garantizar la integridad y la compatibilidad. Los caracteres como espacios, barras invertidas, y ciertos símbolos, aunque válidos en un sistema de archivos local, provocaban errores en la interfaz del Router de MictlanX.
+
+La solución implementada fue la adición de una función de "sanitización de keys" dentro del \textit{Watcher}. Esta función se encarga de procesar los nombres y rutas de los archivos, eliminando o reemplazando los caracteres no permitidos antes de enviar las "keys" a la API de MictlanX. Esta corrección aseguró que todas las "keys" generadas fueran compatibles con los requisitos del VSS, resolviendo así los fallos en la carga de archivos y mejorando significativamente la robustez del proceso de ingesta de datos.
+
+\section{Conclusiones Finales}
+
+\subsection{Conclusiones sobre el sistema desarrollado}
+El desarrollo del \textit{Nez-Daemon Watcher} ha culminado con éxito, entregando un componente de software robusto y eficiente que cumple con todos los requerimientos funcionales y no funcionales establecidos. El sistema soluciona de manera efectiva el desafío de la interoperabilidad entre un sistema de archivos local y el Espacio de Almacenamiento Virtual (VSS) de MictlanX, automatizando el proceso de ingesta de datos de una manera desatendida y resiliente.
+
+Las decisiones arquitectónicas tomadas durante el diseño demostraron ser acertadas en la práctica. La elección de \texttt{Python y su ecosistema asíncrono (asyncio)} fue idónea para una aplicación intensiva en operaciones de entrada/salida, permitiendo una alta concurrencia con un bajo consumo de recursos. La implementación de un \texttt{patrón productor-consumidor mediante una cola de tareas} fue fundamental para desacoplar la detección de eventos del procesamiento, otorgando al sistema la capacidad de absorber picos de trabajo y de recuperarse de fallos individuales sin afectar la operación general.
+
+Asimismo, el uso de \texttt{Docker como tecnología de contenedorización} fue un pilar clave, no solo para simplificar el despliegue y la gestión de dependencias, sino también para garantizar la portabilidad y la consistencia del entorno, tal como lo dictan las mejores prácticas de la industria. El sistema abstrae exitosamente la complejidad del protocolo de carga en dos fases de MictlanX y, a través del \texttt{socket de dominio Unix}, se transforma de un simple agente de ingesta a una pasarela de servicios interactiva, capaz de ser comandada por otras aplicaciones locales.
+
+En resumen, el \textit{Nez-Daemon Watcher} no es solo una herramienta funcional, sino también un ejemplo de cómo aplicar principios de diseño de software moderno —como la asincronía, la modularidad y la contenedorización— para resolver problemas complejos en el ámbito de los sistemas distribuidos y la ciencia de datos.
+
+\subsection{Trabajos y perspectivas para el futuro}
+Aunque el sistema actual es completo y funcional, su arquitectura modular abre la puerta a numerosas mejoras y líneas de trabajo futuro que podrían aumentar aún más su valor y capacidades.
+
+\begin{itemize}
+\item \textbf{Observabilidad Avanzada:} La monitorización actual, basada en el análisis de logs, es funcional pero limitada. Una mejora significativa sería la integración de un sistema de métricas con herramientas como \texttt{Prometheus}. Esto permitiría registrar y visualizar indicadores clave de rendimiento (KPIs) en tiempo real, como la cantidad de archivos procesados por segundo, la latencia de carga, el tamaño de la cola de tareas o la tasa de errores. Estos datos, visualizados en un panel de \texttt{Grafana}, ofrecerían una visión profunda del estado y rendimiento del servicio.
+
+    \item \textbf{Gestión de Secretos Centralizada:} Para un entorno de producción con requisitos de seguridad más estrictos, la configuración y las credenciales no deberían gestionarse exclusivamente a través de variables de entorno. Se propone la integración con un sistema de gestión de secretos como \texttt{HashiCorp Vault} o servicios equivalentes en la nube. Esto centralizaría la gestión de información sensible, permitiría la rotación de credenciales y mejoraría la postura de seguridad general.
+
+    \item \textbf{Ampliación de la API del Socket:} El socket de comunicación entre procesos (IPC) podría evolucionar hacia una API de control más rica. Se podría añadir la capacidad de consultar el estado de los \textit{workers}, obtener estadísticas de la cola de tareas, pausar o reanudar el monitoreo de archivos, o incluso actualizar ciertos parámetros de configuración en caliente, sin necesidad de reiniciar el servicio.
+
+    \item \textbf{Escalado Dinámico de Workers:} Actualmente, el número de tareas \textit{worker} es un valor estático. Una futura versión podría implementar un mecanismo de autoescalado que ajuste dinámicamente el número de \textit{workers} en función de la carga de trabajo (por ejemplo, el número de tareas pendientes en la cola), optimizando así el uso de los recursos del sistema.
+
+    \item \textbf{Interfaz de Usuario Web:} Para facilitar la administración y monitorización por parte de usuarios no técnicos, se podría desarrollar una sencilla interfaz de usuario web. Esta interfaz podría mostrar el estado del servicio, permitir la visualización y gestión del directorio de cuarentena, y ofrecer la posibilidad de iniciar manualmente operaciones de carga o descarga.
+    
+    \item \textbf{Sincronización Bidireccional:} El sistema podría evolucionar de un simple servicio de ingesta a una herramienta de sincronización completa. Esto implicaría no solo reaccionar a la creación de archivos, sino también a sus modificaciones y eliminaciones, propagando dichos cambios al VSS para mantener una réplica consistente del directorio local en la nube.
+\end{itemize}

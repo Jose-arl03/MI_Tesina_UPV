@@ -57,7 +57,12 @@ En el patrón asíncrono, el cliente envía un mensaje o evento y continúa con 
 La elección entre estos patrones no es excluyente; muchos sistemas complejos utilizan una combinación de ambos. Para el middleware de este proyecto, aunque la interacción final con MictlanX puede ser una llamada síncrona, el disparador del proceso es inherentemente asíncrono: el middleware reacciona a un evento (la creación de un archivo) que ocurrió en un momento indeterminado, desacoplando así el proceso de generación de datos de Nez del proceso de registro en Jub. Este enfoque basado en eventos se alinea con los principios de la comunicación asíncrona, proporcionando resiliencia y autonomía al flujo de trabajo de integración \cite{hohpe2003enterprise}.
 
 \subsection{El Modelo Conceptual de PuzzleMesh}
-El modelo \textbf{PuzzleMesh} es un marco de trabajo formal, desarrollado en el CINVESTAV, para la construcción de estructuras de procesamiento de datos que son, por diseño, agnósticas a la infraestructura subyacente. Utiliza una poderosa metáfora de "rompecabezas" para abstraer la complejidad de la composición de sistemas distribuidos, alineándose con los principios de modularidad y reutilización promovidos por las mallas de servicios \cite{sanchez2021efficient}.
+
+El modelo \textbf{PuzzleMesh} es un marco conceptual desarrollado en el CINVESTAV para la construccion de estructuras de procesamiento de datos que, por diseno, son agnosticas a la infraestructura en la que se despliegan. Este modelo propone una abstraccion basada en la metafora de un "rompecabezas", con el objetivo de simplificar la manera en que se definen y ensamblan componentes dentro de sistemas distribuidos.
+
+Bajo este enfoque, los elementos individuales del procesamiento pueden combinarse de forma modular, manteniendo independencia entre si y permitiendo que el flujo de datos se configure mediante reglas explicitas de composicion. Esto facilita la reutilizacion de componentes y la adaptacion del sistema a distintos entornos de ejecucion, en coherencia con los principios que caracterizan a las mallas de servicios \cite{sanchez2021efficient}.
+
+El modelo proporciona asi una base formal para estructurar procesos complejos, favoreciendo la claridad en la definicion de responsabilidades, la organizacion del flujo de informacion y la capacidad de extender o modificar los elementos del sistema sin afectar la arquitectura global.
 
 \subsubsection{La Pieza de Software (P): La Unidad Fundamental}
 La unidad básica y fundamental del modelo es la \textbf{Pieza de Software (P)}. Una pieza no es solo una aplicación, sino un artefacto de software \textbf{autocontenido} que encapsula una funcionalidad específica junto con todos los componentes necesarios para su correcto despliegue y ejecución. La arquitectura de una pieza se puede visualizar como una pila con las siguientes capas:
@@ -71,7 +76,10 @@ La unidad básica y fundamental del modelo es la \textbf{Pieza de Software (P)}.
 Esta estructura garantiza que cada pieza sea un componente autónomo y portable, una verdadera "caja negra" funcional.
 
 \subsubsection{El Rompecabezas (R): Componiendo Flujos de Trabajo}
-Un \textbf{Rompecabezas (R)} es una estructura de procesamiento de alto nivel que se crea al acoplar un conjunto de piezas. La lógica de composición se define mediante un \textbf{Grafo Acíclico Dirigido (DAG)}, donde los nodos del grafo son las piezas y los vértices representan las dependencias y el flujo de datos entre ellas. Un rompecabezas define un flujo de trabajo completo, desde una o más fuentes de datos hasta uno o más destinos, orquestando la ejecución de las piezas que lo componen.
+
+Un \textbf{Rompecabezas (R)} es una estructura de procesamiento de nivel superior que se forma al combinar un conjunto de piezas. La organizacion interna del rompecabezas se establece mediante un \textbf{Grafo Aciclico Dirigido (DAG)}, en el cual cada nodo corresponde a una pieza y cada arista representa una dependencia o un flujo de informacion entre ellas. Este enfoque permite definir el orden en el que deben ejecutarse las piezas y las condiciones bajo las cuales cada una puede iniciar su operacion.
+
+En un rompecabezas, el DAG describe de manera explicita las relaciones entre las piezas, incluyendo aquellas que funcionan como origen de datos y las que actuan como destinos o etapas finales del procesamiento. De esta forma, un rompecabezas abarca un flujo de trabajo completo, desde una o varias fuentes hasta uno o varios puntos de salida, coordinando la ejecucion de las piezas involucradas segun las dependencias establecidas. Esto permite modelar procesos que requieren pasos secuenciales, tareas paralelas o combinaciones de ambas, manteniendo claridad sobre el recorrido que sigue la informacion en todo el sistema.
 
 \subsubsection{El Metarompecabezas ($\Omega$): Interoperabilidad Inter-Sistemas}
 El modelo PuzzleMesh escala el concepto de composición al introducir el \textbf{Metarompecabezas ($\Omega$)}. Un metarompecabezas se construye encadenando múltiples rompecabezas. Esta capacidad es la que permite modelar flujos de trabajo extremadamente complejos que pueden cruzar fronteras departamentales, organizacionales o de infraestructura. Por ejemplo, un metarompecabezas podría modelar un flujo donde los datos se originan en el sistema A (representado por un rompecabezas), se procesan en el sistema B (otro rompecabezas) y finalmente se consumen en el sistema C (un tercer rompecabezas). Esta abstracción es clave para lograr una interoperabilidad real y a gran escala \cite{sanchez2022puzzlemesh}.
@@ -112,17 +120,27 @@ La decisión de diseño clave es que el middleware no espera a ser invocado, sin
 \end{itemize}
 
 \paragraph{Flujo de Trabajo de Interoperabilidad.}
-El funcionamiento del middleware sigue una secuencia clara y automatizada que materializa el puente entre Nez y Jub:
+
+El funcionamiento del middleware se estructura como un flujo de trabajo automatizado cuyo proposito es enlazar de manera transparente los procesos de la plataforma Nez con los servicios proporcionados por el ecosistema Jub. Este flujo depende del monitoreo constante del sistema de archivos y del intercambio controlado de artefactos mediante el cliente de MictlanX. A continuacion se describe con mayor detalle cada una de las etapas que conforman este proceso:
+
 \begin{enumerate}
-    \item El demonio del middleware se inicia y entra en un estado de vigilancia pasiva, consumiendo mínimos recursos del sistema.
-    \item El monitor \texttt{watchdog} se registra en el sistema operativo para observar el directorio de salida de la plataforma Nez.
-    \item La plataforma Nez completa una de sus tareas de procesamiento y genera un nuevo producto de datos (un archivo o una carpeta) en dicho directorio.
-    \item El sistema operativo notifica inmediatamente al proceso \texttt{watchdog} sobre el evento de creación de un nuevo archivo.
-    \item Esta notificación actúa como el \textbf{disparador (trigger)} que "despierta" la lógica principal del middleware.
-    \item El middleware lee el nuevo archivo y sus metadatos asociados para identificar el producto de datos.
-    \item A continuación, invoca al cliente de la plataforma MictlanX, pasándole el artefacto para su registro y publicación en el ecosistema de Jub. En este paso, el middleware actúa como un \textbf{cliente de servicio}.
-    \item Una vez completada la operación, el middleware vuelve a su estado de espera, listo para el próximo evento.
+	\item El demonio del middleware se inicia como un servicio del sistema y entra en un estado de vigilancia pasiva. En este estado se mantiene ejecutando en segundo plano, sin intervenir activamente hasta que ocurre un evento de interes. Su consumo de recursos permanece minimo, lo cual permite que se ejecute de manera continua sin afectar el rendimiento general del entorno.
+	
+	\item El monitor \texttt{watchdog} se registra en el sistema operativo para observar el directorio de salida generado por la plataforma Nez. Este registro utiliza los mecanismos nativos del sistema para recibir alertas en cuanto se produzca una modificacion en dicho directorio, evitando la necesidad de realizar consultas periodicas o escaneos manuales.
+	
+	\item La plataforma Nez completa una de sus tareas internas de procesamiento y genera un nuevo producto de datos. Este producto puede consistir en un archivo individual, una carpeta con varios elementos o cualquier otro artefacto que forme parte del flujo de trabajo definido. Una vez generado, Nez lo deposita en el directorio previamente configurado.
+	
+	\item El sistema operativo detecta la creacion del nuevo archivo o carpeta y emite una notificacion dirigida al proceso \texttt{watchdog}. Esta notificacion se produce de forma inmediata, lo cual permite que el middleware reaccione sin retrasos adicionales, manteniendo la sincronizacion entre ambos sistemas.
+	
+	\item La notificacion recibida actua como el \textbf{disparador (trigger)} del flujo de interoperabilidad. A partir de este punto, la logica principal del middleware se activa y abandona temporalmente su estado pasivo para iniciar el procesamiento del nuevo artefacto.
+	
+	\item El middleware accede al archivo recien creado y analiza su contenido basico, asi como los metadatos asociados. Esta etapa permite identificar el tipo de producto, su origen dentro del procesamiento de Nez y cualquier informacion necesaria para su posterior registro en la plataforma MictlanX.
+	
+	\item Una vez identificado el producto, el middleware invoca al cliente de la plataforma MictlanX, al cual entrega el artefacto junto con la informacion necesaria para su registro. En este paso, el middleware actua explicitamente como \textbf{cliente de servicio}, delegando en MictlanX la gestion del almacenamiento, catalogacion o publicacion del producto dentro del ecosistema Jub. Esta invocacion puede incluir validaciones adicionales, reintentos o verificacion de estados segun lo requerido por el flujo operativo.
+	
+	\item Tras completar la operacion de envio, el middleware registra internamente el exito o fallo de la transferencia y procede a regresar a su estado inicial de espera. A partir de este punto queda preparado para recibir nuevas notificaciones del sistema operativo, permitiendo que el flujo de interoperabilidad se repita de manera continua y automatizada.
 \end{enumerate}
+
 Este diseño cumple con los objetivos de un middleware al proporcionar interoperabilidad y abstracción de una manera eficiente y de bajo acoplamiento, funcionando como un puente automatizado y reactivo que cohesiona dos sistemas previamente aislados.
 
 \subsection{Observabilidad en Sistemas Distribuidos}
