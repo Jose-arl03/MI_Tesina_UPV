@@ -86,13 +86,13 @@
 %Hombres cambien LA por EL
 \newcommand{\elolaNombreAlumno}{el}  
 \newcommand{\OA}           {o}  %Hombres cambien A por O
-\newcommand{\Matricula}           {1730505}  %SU MATRICULA
+\newcommand{\Matricula}           {2130207}  %SU MATRICULA
 \newcommand{\NombreProyecto}{Diseño e implementación de un middleware para la interoperabilidad entre la plataforma Nez y el concentrador de servicios Jub}
-\newcommand{\fechacarta}{26 de Abril de 2025}
-\newcommand{\ncuatrimestre}{Mayo-agosto 2025}
+\newcommand{\fechacarta}{4 de Diciembre de 2025}
+\newcommand{\ncuatrimestre}{Septiembre-Diciembre 2025}
 \newcommand{\nevalador}{Dr. Hiram Herrera Rivas}
-\newcommand{\FechaExposicion}{11 de Agosto de 2021}
-\newcommand{\HoraExposionFormatoVenticuatroHoras}{10:00}
+\newcommand{\FechaExposicion}{08 de Diciembre de 2025}
+\newcommand{\HoraExposionFormatoVenticuatroHoras}{12:00}
 \newcommand{\elolaNombreEmpresa}{la}  %Si la empresa es femenino (por ejemplo universidad, usen la) o masculino (el instituto) pongan el
 \newcommand{\organismoreceptor}   {CENTRO DE INVESTIGACIÓN Y DE ESTUDIOS
  AVANZADOS DEL INSTITUTO POLITÉCNICO NACIONAL (CINVESTAV) UNIDAD TAMAULIPAS}
@@ -439,6 +439,17 @@ Una vez concluido el proceso de evaluación, y con base a la rúbrica establecid
 \addcontentsline{toc}{section}{Agradecimientos}
 %\input{Agradecimientos.tex}
 
+Quiero expresar mi m\'as profundo agradecimiento a mi familia, quienes fueron el pilar fundamental para culminar mis estudios. Su apoyo incondicional, su confianza en m\'i y la paciencia que me brindaron en cada etapa de este proceso fueron esenciales para continuar avanzando incluso en los momentos m\'as dif\'iciles.
+
+A mi madre, agradezco cada palabra de aliento, cada gesto de apoyo y cada sacrificio que hizo para que yo pudiera concentrarme y continuar con mi formaci\'on. Su fuerza y dedicaci\'on fueron una gu\'ia constante que me inspir\'o a no rendirme.
+
+A mis hermanos, les agradezco por orientarme cuando me encontraba perdido, por ayudarme a comprender aquello que no entend\'ia y por acompa\~narme en los momentos de incertidumbre. Su disposici\'on y compa\~n\'ia hicieron que este camino fuera m\'as ligero.
+
+A mis verdaderos amigos, gracias por estar presentes sin esperar nada a cambio, por escucharme, motivarme y ofrecerme su apoyo sincero. Su amistad fue un refugio en los d\'ias complicados y una fuente de energ\'ia para seguir adelante.
+
+A mis compa\~neros, les agradezco por los buenos momentos compartidos, por el aprendizaje mutuo y por el compa\~nerismo que hizo m\'as llevadera esta etapa acad\'emica. Cada experiencia vivida junto a ustedes form\'o parte importante de este recorrido.
+
+
 %-----------------------------------------------------------------------------------------------------------------
 % PAGINA 5 - RESUMEN EN ESPAÑOL
 
@@ -446,13 +457,15 @@ Una vez concluido el proceso de evaluación, y con base a la rúbrica establecid
 \section*{\centering Resumen}
 \addcontentsline{toc}{section}{Resumen}
 %\input{Resumen.tex}
-El avance de la ciencia de datos y el aprendizaje profundo depende críticamente de la capacidad para integrar sistemas de software heterogéneos y especializados. Plataformas como \textit{Nez}, un \textit{framework} para el procesamiento de datos a gran escala basado en el modelo \textit{PuzzleMesh}, y \textit{Jub}, un concentrador de servicios para el monitoreo de fenómenos atmosféricos, ofrecen capacidades potentes pero operan en silos aislados, limitando su potencial sinérgico. Este trabajo aborda el desafío de la interoperabilidad entre estos dos sistemas mediante el diseño e implementación de un \textit{middleware} de acoplamiento ligero. 
+El crecimiento de los sistemas de an\'alisis de datos en entornos cient\'ificos ha incrementado la necesidad de integrar plataformas heterog\'eneas mediante mecanismos de comunicaci\'on estandarizados. En el ecosistema desarrollado por el CINVESTAV Tamaulipas, la plataforma Nez genera productos de datos derivados de procesos de c\'omputo intensivo, mientras que MictlanX funge como un sistema de almacenamiento distribuido que alimenta a la plataforma Jub, utilizada como concentrador de informaci\'on para aplicaciones de investigaci\'on y monitoreo. Sin embargo, la ausencia de un mecanismo autom\'atico que conecte estos sistemas limita la construcci\'on de flujos de trabajo integrados.
 
-La solución propuesta se basa en una arquitectura de API \textit{REST ful}, que actúa como un puente de comunicación estandarizado, permitiendo que \textit{Jub} invoque los servicios de procesamiento avanzado de \textit{Nez} de manera transparente y eficiente. El \textit{middleware} implementado no solo facilita el intercambio de datos y procesos en tiempo real, sino que también establece las bases para la creación de una malla de servicios de ciencia de datos unificada, gestionando las operaciones de almacenamiento a través del cliente \textit{MictlanX}. 
+Este trabajo presenta el dise\~no e implementaci\'on del \textit{Nez-Daemon Watcher}, un middleware de acoplamiento ligero que automatiza la interoperabilidad entre Nez y el ecosistema de almacenamiento de MictlanX. El sistema funciona como un servicio aut\'onomo en segundo plano, basado en un modelo reactivo orientado a eventos. Utiliza la monitorizaci\'on del sistema de archivos para detectar en tiempo real la creaci\'on de nuevos artefactos producidos por Nez y ejecuta un flujo de ingesta que incluye verificaci\'on de integridad, registro estructurado, c\'alculo de hash SHA-256 y carga al VSS de MictlanX mediante su cliente oficial.
 
-El prototipo fue desarrollado utilizando el \textit{framework} \textit{FastAPI} de Python, seleccionado por su alto rendimiento y sus capacidades para la rápida creación de APIs robustas. La validación del sistema se realizó a través de un caso de uso de procesamiento de imágenes, demostrando la viabilidad y eficacia del \textit{middleware} como catalizador para la integración de sistemas complejos en entornos de investigación científica.  
+La soluci\'on adopta principios de dise\~no modernos para sistemas distribuidos: concurrencia a trav\'es de trabajadores as\'incronos, resiliencia mediante reintentos con retroceso exponencial, arquitectura portable basada en contenedores Docker y configuraci\'on externa siguiendo las pr\'acticas de las aplicaciones de doce factores. El sistema tambi\'en incorpora mecanismos de cuarentena para archivos corruptos y extensiones para solicitudes de descarga mediante comunicaci\'on entre procesos usando sockets Unix.
 
-\textbf{Palabras clave:} Middleware, Interoperabilidad, Malla de Servicios, API REST, FastAPI, Nez, Jub, Sistemas Distribuidos.
+La validaci\'on del prototipo se llev\'o a cabo mediante escenarios representativos de procesamiento de im\'agenes, demostrando un funcionamiento confiable del flujo de ingesta, un uso eficiente de recursos y una integraci\'on transparente con el almacenamiento distribuido. El middleware desarrollado constituye una base s\'olida para la futura integraci\'on con Jub y para la construcci\'on de mallas de servicios m\'as amplias dentro del ecosistema cient\'ifico institucional.
+
+\textbf{Palabras clave:} Middleware, Interoperabilidad, Automatizaci\'on, Sistemas Distribuidos, Watchdog, MictlanX, Nez, Acoplamiento Ligero, Docker.
 
 
 %-----------------------------------------------------------------------------------------------------------------
@@ -462,13 +475,16 @@ El prototipo fue desarrollado utilizando el \textit{framework} \textit{FastAPI} 
 \section*{\centering Summary}
 \addcontentsline{toc}{section}{Summary}
 %\input{Summary.tex}
-The advancement of data science and deep learning critically depends on the ability to integrate heterogeneous and specialized software systems. Platforms such as \textit{Nez}, a framework for large-scale data processing based on the \textit{PuzzleMesh} model, and \textit{Jub}, a service hub for monitoring atmospheric phenomena, offer powerful capabilities but operate in isolated silos, limiting their synergistic potential. This work addresses the challenge of interoperability between these two systems through the design and implementation of a lightweight \textit{middleware}. 
+The rapid growth of data analysis systems in scientific environments has increased the need to integrate heterogeneous platforms through standardized communication mechanisms. Within the ecosystem developed at CINVESTAV Tamaulipas, the Nez platform generates data products derived from intensive computational processes, while MictlanX serves as a distributed storage system that supplies the Jub platform, used as a data hub for research and monitoring applications. However, the absence of an automatic mechanism linking these systems limits the construction of integrated workflows.
 
-The proposed solution is based on a REST ful API architecture, which acts as a standardized communication bridge, allowing \textit{Jub} to invoke \textit{Nez}'s advanced processing services transparently and efficiently. The implemented \textit{middleware} not only facilitates the real-time exchange of data and processes but also lays the foundation for creating a unified data science service mesh, managing storage operations through the \textit{MictlanX} client. 
+This work presents the design and implementation of the \textit{Nez-Daemon Watcher}, a lightweight coupling middleware that automates interoperability between Nez and the MictlanX storage ecosystem. The system operates as an autonomous background service, following a reactive event-driven model. It monitors the filesystem to detect new artifacts produced by Nez in real time and executes an ingestion workflow that includes integrity verification, structured logging, SHA-256 hash computation, and object upload to the MictlanX VSS using its official client.
 
-The prototype was developed using the Python \textit{FastAPI} framework, chosen for its high performance and its capabilities for the rapid creation of robust APIs. The system's validation was conducted through an image processing use case, demonstrating the feasibility and effectiveness of the \textit{middleware} as a catalyst for integrating complex systems in scientific research environments.  
+The solution adopts modern design principles for distributed systems: concurrency through asynchronous workers, resilience via exponential backoff retry strategies, portability using Docker containers, and external configuration following twelve-factor application practices. The system also incorporates quarantine mechanisms for corrupted files and support for download requests through inter-process communication using Unix domain sockets.
 
-\textbf{Keywords:} Middleware, Interoperability, Service Mesh, REST API, FastAPI, Nez, Jub, Distributed Systems.
+The prototype was validated through representative image-processing scenarios, demonstrating reliable ingestion behavior, efficient resource usage, and transparent integration with the distributed storage system. The developed middleware provides a solid foundation for future integration with Jub and for building more extensive service meshes within the institutional scientific ecosystem.
+
+\textbf{Keywords:} Middleware, Interoperability, Automation, Distributed Systems, Watchdog, MictlanX, Nez, Lightweight Coupling, Docker.
+
 
 %-----------------------------------------------------------------------------------------------------------------
 % PAGINA 7 - INDICE
