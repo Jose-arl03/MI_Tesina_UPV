@@ -68,8 +68,8 @@
       \strng{authorbibnamehash}{c3f9c49384ae521cf5c4df5737fff6f2}
       \strng{authornamehash}{c3f9c49384ae521cf5c4df5737fff6f2}
       \strng{authorfullhash}{dbe8972efdb24cc122b2701108e3438c}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Remote Sensing}
@@ -141,8 +141,8 @@
       \strng{authorbibnamehash}{b882369a494295dcc514582e47a8db28}
       \strng{authornamehash}{b882369a494295dcc514582e47a8db28}
       \strng{authorfullhash}{e65b8d06877a13dfe98a18cc8292e32c}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Medical Image Analysis}
@@ -174,8 +174,8 @@
       \strng{authorbibnamehash}{f23cb9a5dea4a7601637988fed3ccd81}
       \strng{authornamehash}{f23cb9a5dea4a7601637988fed3ccd81}
       \strng{authorfullhash}{f23cb9a5dea4a7601637988fed3ccd81}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{International Journal of Computer Applications}
@@ -208,8 +208,8 @@
       \strng{authorbibnamehash}{c52232c930c890f746b19e8d8594ba3e}
       \strng{authornamehash}{c52232c930c890f746b19e8d8594ba3e}
       \strng{authorfullhash}{c52232c930c890f746b19e8d8594ba3e}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Grid Computing}
@@ -239,8 +239,8 @@
       \strng{authorbibnamehash}{f25a2dbe0ac3d6518c0547de42b575ae}
       \strng{authornamehash}{f25a2dbe0ac3d6518c0547de42b575ae}
       \strng{authorfullhash}{f25a2dbe0ac3d6518c0547de42b575ae}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{ContactoS}
@@ -278,8 +278,8 @@
       \strng{authorbibnamehash}{9ef0a4c8139c330c860fd479c9eaae56}
       \strng{authornamehash}{9ef0a4c8139c330c860fd479c9eaae56}
       \strng{authorfullhash}{9ef0a4c8139c330c860fd479c9eaae56}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{{Istio: Up and Running: Using a Service Mesh to Connect, Secure, Control, and Observe}}
@@ -307,8 +307,8 @@
       \strng{authorbibnamehash}{c0e356439e69c55e6551b8a7c0516755}
       \strng{authornamehash}{c0e356439e69c55e6551b8a7c0516755}
       \strng{authorfullhash}{c0e356439e69c55e6551b8a7c0516755}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{{Distributed Systems: Principles and Paradigms}}
@@ -331,8 +331,8 @@
       \strng{authorbibnamehash}{b6be43602c2787d279f8522a7d9713db}
       \strng{authornamehash}{b6be43602c2787d279f8522a7d9713db}
       \strng{authorfullhash}{b6be43602c2787d279f8522a7d9713db}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{{Building Microservices: Designing Fine-Grained Systems}}
@@ -355,8 +355,8 @@
       \strng{authorbibnamehash}{d0740bcf48754b8fa2cd3549a1d73461}
       \strng{authornamehash}{d0740bcf48754b8fa2cd3549a1d73461}
       \strng{authorfullhash}{d0740bcf48754b8fa2cd3549a1d73461}
-      \field{sortinit}{9}
-      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{{Microservices Patterns: With Examples in Java}}
@@ -658,8 +658,8 @@
       \strng{authorbibnamehash}{6aee76f0c64eb84b258db2b21456b865}
       \strng{authornamehash}{6aee76f0c64eb84b258db2b21456b865}
       \strng{authorfullhash}{6aee76f0c64eb84b258db2b21456b865}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{SIGOPS Oper. Syst. Rev.}
@@ -687,8 +687,8 @@
       \strng{authorbibnamehash}{34b8d5b1d29d175527a6642f3ec8a76d}
       \strng{authornamehash}{34b8d5b1d29d175527a6642f3ec8a76d}
       \strng{authorfullhash}{34b8d5b1d29d175527a6642f3ec8a76d}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{{Designing data-intensive applications: The big ideas behind reliable, scalable, and maintainable systems}}
@@ -839,6 +839,7 @@
       \strng{authorbibnamehash}{c7b5508dc5e59a2846d22617276cc27c}
       \strng{authornamehash}{c7b5508dc5e59a2846d22617276cc27c}
       \strng{authorfullhash}{c7b5508dc5e59a2846d22617276cc27c}
+      \field{extraname}{1}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{labelnamesource}{author}
@@ -974,12 +975,259 @@
       \strng{authorbibnamehash}{0599c551bf066f66e0e9c44815384cb4}
       \strng{authornamehash}{0599c551bf066f66e0e9c44815384cb4}
       \strng{authorfullhash}{0599c551bf066f66e0e9c44815384cb4}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{{Cryptography and network security: principles and practice}}
       \field{year}{2017}
+    \endentry
+    \entry{Microsoft:Concepto}{misc}{}
+      \name{author}{1}{}{%
+        {{hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{{Visual Studio Code - Code Editing. Redefined.}}
+      \field{year}{2016}
+      \verb{urlraw}
+      \verb https://code.visualstudio.com/
+      \endverb
+      \verb{url}
+      \verb https://code.visualstudio.com/
+      \endverb
+    \endentry
+    \entry{Python:2024:asyncio}{online}{}
+      \name{author}{1}{}{%
+        {{hash=c7b5508dc5e59a2846d22617276cc27c}{%
+           family={{Python Software Foundation}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{c7b5508dc5e59a2846d22617276cc27c}
+      \strng{fullhash}{c7b5508dc5e59a2846d22617276cc27c}
+      \strng{bibnamehash}{c7b5508dc5e59a2846d22617276cc27c}
+      \strng{authorbibnamehash}{c7b5508dc5e59a2846d22617276cc27c}
+      \strng{authornamehash}{c7b5508dc5e59a2846d22617276cc27c}
+      \strng{authorfullhash}{c7b5508dc5e59a2846d22617276cc27c}
+      \field{extraname}{2}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accedido: 03-12-2025}
+      \field{title}{{asyncio — Asynchronous I/O}}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://docs.python.org/3/library/asyncio.html
+      \endverb
+      \verb{url}
+      \verb https://docs.python.org/3/library/asyncio.html
+      \endverb
+    \endentry
+    \entry{HTTPX:2024:docs}{online}{}
+      \name{author}{1}{}{%
+        {{hash=a79a682f66f0f9b8aa2ca16816883717}{%
+           family={{Encode}},
+           familyi={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{a79a682f66f0f9b8aa2ca16816883717}
+      \strng{fullhash}{a79a682f66f0f9b8aa2ca16816883717}
+      \strng{bibnamehash}{a79a682f66f0f9b8aa2ca16816883717}
+      \strng{authorbibnamehash}{a79a682f66f0f9b8aa2ca16816883717}
+      \strng{authornamehash}{a79a682f66f0f9b8aa2ca16816883717}
+      \strng{authorfullhash}{a79a682f66f0f9b8aa2ca16816883717}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accedido: 03-12-2025}
+      \field{title}{{HTTPX - A next-generation HTTP client for Python.}}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://www.python-httpx.org/
+      \endverb
+      \verb{url}
+      \verb https://www.python-httpx.org/
+      \endverb
+    \endentry
+    \entry{Dotenv:2024:pypi}{online}{}
+      \name{author}{1}{}{%
+        {{hash=c3ac9e7dae03c093a86970853c449196}{%
+           family={Kumar},
+           familyi={K\bibinitperiod},
+           given={Saurabh},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{c3ac9e7dae03c093a86970853c449196}
+      \strng{fullhash}{c3ac9e7dae03c093a86970853c449196}
+      \strng{bibnamehash}{c3ac9e7dae03c093a86970853c449196}
+      \strng{authorbibnamehash}{c3ac9e7dae03c093a86970853c449196}
+      \strng{authornamehash}{c3ac9e7dae03c093a86970853c449196}
+      \strng{authorfullhash}{c3ac9e7dae03c093a86970853c449196}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accedido: 03-12-2025}
+      \field{title}{{python-dotenv: Read key-value pairs from .env file}}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://pypi.org/project/python-dotenv/
+      \endverb
+      \verb{url}
+      \verb https://pypi.org/project/python-dotenv/
+      \endverb
+    \endentry
+    \entry{Docker:2024:overview}{online}{}
+      \name{author}{1}{}{%
+        {{hash=e6f3d214228cc5933c1a82019f7dc0e0}{%
+           family={{Docker, Inc.}},
+           familyi={D\bibinitperiod}}}%
+      }
+      \strng{namehash}{e6f3d214228cc5933c1a82019f7dc0e0}
+      \strng{fullhash}{e6f3d214228cc5933c1a82019f7dc0e0}
+      \strng{bibnamehash}{e6f3d214228cc5933c1a82019f7dc0e0}
+      \strng{authorbibnamehash}{e6f3d214228cc5933c1a82019f7dc0e0}
+      \strng{authornamehash}{e6f3d214228cc5933c1a82019f7dc0e0}
+      \strng{authorfullhash}{e6f3d214228cc5933c1a82019f7dc0e0}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accedido: 03-12-2025}
+      \field{title}{{Docker overview}}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb https://docs.docker.com/get-started/overview/
+      \endverb
+      \verb{url}
+      \verb https://docs.docker.com/get-started/overview/
+      \endverb
+    \endentry
+    \entry{Stroustrup:2013:cpp}{book}{}
+      \name{author}{1}{}{%
+        {{hash=4975813514faee20fb6fcdb39a08af6f}{%
+           family={Stroustrup},
+           familyi={S\bibinitperiod},
+           given={Bjarne},
+           giveni={B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Addison-Wesley Professional}%
+      }
+      \strng{namehash}{4975813514faee20fb6fcdb39a08af6f}
+      \strng{fullhash}{4975813514faee20fb6fcdb39a08af6f}
+      \strng{bibnamehash}{4975813514faee20fb6fcdb39a08af6f}
+      \strng{authorbibnamehash}{4975813514faee20fb6fcdb39a08af6f}
+      \strng{authornamehash}{4975813514faee20fb6fcdb39a08af6f}
+      \strng{authorfullhash}{4975813514faee20fb6fcdb39a08af6f}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{4th}
+      \field{title}{{The C++ Programming Language}}
+      \field{year}{2013}
+    \endentry
+    \entry{Pressman:2019:practitioner}{book}{}
+      \name{author}{2}{}{%
+        {{hash=4d3f81788d99cf425c4b6e0a454baab0}{%
+           family={Pressman},
+           familyi={P\bibinitperiod},
+           given={Roger\bibnamedelima S.},
+           giveni={R\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=13b3d71ce7fd3614b4e2e9ce804597f3}{%
+           family={Maxim},
+           familyi={M\bibinitperiod},
+           given={Bruce\bibnamedelima R.},
+           giveni={B\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {McGraw-Hill Education}%
+      }
+      \strng{namehash}{da6ec91488daec8c3c9eddf18c78dad8}
+      \strng{fullhash}{da6ec91488daec8c3c9eddf18c78dad8}
+      \strng{bibnamehash}{da6ec91488daec8c3c9eddf18c78dad8}
+      \strng{authorbibnamehash}{da6ec91488daec8c3c9eddf18c78dad8}
+      \strng{authornamehash}{da6ec91488daec8c3c9eddf18c78dad8}
+      \strng{authorfullhash}{da6ec91488daec8c3c9eddf18c78dad8}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{9th}
+      \field{title}{{Software Engineering: A Practitioner's Approach}}
+      \field{year}{2019}
+    \endentry
+    \entry{Hunt:2000:pragmatic}{book}{}
+      \name{author}{2}{}{%
+        {{hash=10383d05f32f2a21518b493a3c546e5c}{%
+           family={Hunt},
+           familyi={H\bibinitperiod},
+           given={Andrew},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b5eb4ac16368112932ff36772cb0b0b5}{%
+           family={Thomas},
+           familyi={T\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Addison-Wesley Professional}%
+      }
+      \strng{namehash}{6551e2d8a523620fdffb6fe4053ca3d5}
+      \strng{fullhash}{6551e2d8a523620fdffb6fe4053ca3d5}
+      \strng{bibnamehash}{6551e2d8a523620fdffb6fe4053ca3d5}
+      \strng{authorbibnamehash}{6551e2d8a523620fdffb6fe4053ca3d5}
+      \strng{authornamehash}{6551e2d8a523620fdffb6fe4053ca3d5}
+      \strng{authorfullhash}{6551e2d8a523620fdffb6fe4053ca3d5}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Capítulos sobre pruebas de software e integración.}
+      \field{title}{{The Pragmatic Programmer: From Journeyman to Master}}
+      \field{year}{2000}
+    \endentry
+    \entry{POSIX:2018:ipc}{report}{}
+      \name{author}{1}{}{%
+        {{hash=feab85abc286dc668035ae1eeddd58fc}{%
+           family={{The Open Group}},
+           familyi={T\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{feab85abc286dc668035ae1eeddd58fc}
+      \strng{fullhash}{feab85abc286dc668035ae1eeddd58fc}
+      \strng{bibnamehash}{feab85abc286dc668035ae1eeddd58fc}
+      \strng{authorbibnamehash}{feab85abc286dc668035ae1eeddd58fc}
+      \strng{authornamehash}{feab85abc286dc668035ae1eeddd58fc}
+      \strng{authorfullhash}{feab85abc286dc668035ae1eeddd58fc}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Sección sobre System Interfaces, incluyendo sockets.}
+      \field{title}{{IEEE Std 1003.1-2017, Standard for Information Technology--Portable Operating System Interface (POSIX®) Base Specifications, Issue 7}}
+      \field{type}{techreport}
+      \field{year}{2018}
+      \verb{urlraw}
+      \verb https://pubs.opengroup.org/onlinepubs/9699919799/
+      \endverb
+      \verb{url}
+      \verb https://pubs.opengroup.org/onlinepubs/9699919799/
+      \endverb
     \endentry
   \enddatalist
 \endrefsection

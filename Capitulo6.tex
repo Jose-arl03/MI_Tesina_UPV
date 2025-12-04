@@ -31,23 +31,23 @@ El uso de este equipo demostró que, gracias a la contenedorización, es posible
 La selección del software se centró en tecnologías modernas, de código abierto y alineadas con los requerimientos de un sistema distribuido, asíncrono y portable.
 
 \begin{itemize}
-    \item \textbf{Visual Studio Code:} Fue el entorno de desarrollo integrado (IDE) principal para la escritura y depuración del código. Su naturaleza ligera, junto con un potente ecosistema de extensiones, lo convirtieron en la herramienta ideal. Se utilizaron extensiones clave para el desarrollo con Python (ofreciendo autocompletado, \textit{linting} y formato de código) y para la integración con Docker, que permitió gestionar los contenedores, visualizar sus estados y acceder a sus registros directamente desde el editor.
+    \item \textbf{Visual Studio Code \cite{Microsoft:Concepto}:} Fue el entorno de desarrollo integrado (IDE) principal para la escritura y depuración del código. Su naturaleza ligera, junto con un potente ecosistema de extensiones, lo convirtieron en la herramienta ideal. Se utilizaron extensiones clave para el desarrollo con Python (ofreciendo autocompletado, \textit{linting} y formato de código) y para la integración con Docker, que permitió gestionar los contenedores, visualizar sus estados y acceder a sus registros directamente desde el editor.
 
-    \item \textbf{Python 3.12:} Fue el lenguaje de programación elegido para desarrollar el servicio \textit{Nez-Daemon Watcher}. Su elección se justifica por su robusto soporte para la programación asíncrona a través de la biblioteca \texttt{asyncio}, fundamental para gestionar operaciones de red y de sistema de archivos de manera concurrente y eficiente. Además, se utilizó un ecosistema de librerías clave, entre las que destacan:
+    \item \textbf{Python 3.12:} Fue el lenguaje de programación elegido para desarrollar el servicio \textit{Nez-Daemon Watcher}. Su elección se justifica por su robusto soporte para la programación asíncrona a través de la biblioteca \texttt{asyncio} \cite{Python:2024:asyncio}, fundamental para gestionar operaciones de red y de sistema de archivos de manera concurrente y eficiente. Además, se utilizó un ecosistema de librerías clave, entre las que destacan:
     \begin{itemize}
         \item \texttt{watchdog}: Para el monitoreo continuo y no bloqueante del sistema de archivos.
-        \item \texttt{httpx}: Un cliente HTTP asíncrono moderno, utilizado para la comunicación resiliente con la API REST del \textit{Router} de MictlanX.
-        \item \texttt{python-dotenv}: Para la gestión de la configuración a través de variables de entorno, adhiriéndose a los principios de la metodología \textit{12-Factor App}.
-    \end{itemize}
-    
-    \item \textbf{Docker:} Es una pieza central de la arquitectura. Se utilizó para empaquetar el \textit{Nez-Daemon Watcher} y todas sus dependencias en una imagen de contenedor portátil. Asimismo, se empleó para desplegar el ecosistema completo de MictlanX en el entorno de desarrollo. El uso de Docker garantiza la consistencia entre los entornos de desarrollo y producción, simplifica el despliegue y aísla los servicios, cumpliendo con el requerimiento no funcional de portabilidad.
+                    \item \texttt{httpx} \cite{HTTPX:2024:docs}: Un cliente HTTP asíncrono moderno, utilizado para la comunicación resiliente con la API REST del \textit{Router} de MictlanX.
+                    \item \texttt{python-dotenv} \cite{Dotenv:2024:pypi}: Para la gestión de la configuración a través de variables de entorno, adhiriéndose a los principios de la metodología \textit{12-Factor App}.
+                \end{itemize}
+                
+                \item \textbf{Docker \cite{Docker:2024:overview, merkel2014docker}:} Es una pieza central de la arquitectura. Se utilizó para empaquetar el \textit{Nez-Daemon Watcher} y todas sus dependencias en una imagen de contenedor portátil. Asimismo, se empleó para desplegar el ecosistema completo de MictlanX en el entorno de desarrollo. El uso de Docker garantiza la consistencia entre los entornos de desarrollo y producción, simplifica el despliegue y aísla los servicios, cumpliendo con el requerimiento no funcional de portabilidad.
 
 \item \textbf{MictlanX Virtual Storage Space (VSS):} Actuó como el sistema de almacenamiento distribuido de destino. Para las pruebas, una instancia completa del VSS, incluyendo su \textit{Router} y múltiples nodos \textit{Peer}, fue desplegada localmente mediante contenedores Docker. Esto permitió validar la correcta interacción del \textit{Watcher} con la API de MictlanX para la subida, replicación y verificación de archivos.
 \end{itemize}
 
 \subsection{Elementos a Evaluar}
 
-Durante las fases de desarrollo y pruebas se evaluó la funcionalidad del cliente implementado en C++. El análisis se centró en verificar su comportamiento al interactuar con los datos alojados en el Espacio de Almacenamiento Virtual (VSS) de MictlanX, así como en revisar que cumpliera adecuadamente con las operaciones previstas dentro del flujo de trabajo.
+Durante las fases de desarrollo y pruebas se evaluó la funcionalidad del cliente implementado en C++ \cite{Stroustrup:2013:cpp}. El análisis se centró en verificar su comportamiento al interactuar con los datos alojados en el Espacio de Almacenamiento Virtual (VSS) de MictlanX, así como en revisar que cumpliera adecuadamente con las operaciones previstas dentro del flujo de trabajo.
 
 Se comprobó que el cliente permite consultar archivos individuales y también manejar estructuras más amplias, como carpetas completas que contienen expedientes de pacientes. Esto facilitó revisar distintos escenarios de uso y confirmar que el sistema es capaz de procesar información en diferentes niveles de organización.
 
@@ -57,7 +57,7 @@ Hasta ahora los resultados obtenidos permitieron identificar el comportamiento d
 
 \newpage
 
-\subsection{Pruebas}
+\subsection{Pruebas \cite{Pressman:2019:practitioner, Hunt:2000:pragmatic}}
 La validación del sistema se realizo en dos fases principales. La primera se enfoco en evaluar el servicio \textit{Watcher} de forma aislada, mientras que la segunda consistio en revisar su funcionamiento al integrarse con los componentes responsables de la comunicacion externa.
 En la fase inicial, el \textit{Watcher} se probo de manera independiente con el proposito de confirmar su funcion principal: detectar nuevos archivos y enviarlos automaticamente al VSS de MictlanX. Para ello, el servicio se ejecuto dentro de un contenedor Docker con el fin de contar con un entorno controlado y reproducible durante las pruebas. 
 
@@ -72,4 +72,24 @@ El analisis de estas trazas facilito la identificacion de fallos y la revision d
     \label{fig:watcher_logs}
 \end{figure}
 
-Una vez validado el flujo de carga, las pruebas se extendieron a los mecanismos de comunicación para la descarga de archivos. Se probó de manera exhaustiva el socket de dominio Unix, confirmando que el \textit{Watcher} podía recibir y procesar peticiones de otros procesos locales. Posteriormente, se integró el cliente desarrollado en C++ a este flujo. El objetivo era simular el caso de uso completo en el que una aplicación externa (el cliente) solicita la descarga de un archivo o expediente a través del socket. El éxito de estas pruebas confirmó que el \textit{Watcher} no solo actúa como un agente de ingesta, sino también como una puerta de enlace funcional para que otras partes del sistema accedan a los datos almacenados en MictlanX, preparándolo para su integración en un flujo de trabajo o \textit{deployer} más amplio.
+La Figura \ref{fig:watcher_logs} muestra el momento exacto del inicio y preparación exitosa del servicio NEZ-DAEMON WATCHER, centrado en la integración con MictlanX. El proceso comienza con el reconocimiento y la configuración de la conexión al router de MictlanX (host.docker.internal:60666), seguido de una verificación de salud exitosa del servicio MictlanX (HTTP/1.1 200 OK). Una vez confirmada la disponibilidad del servicio de backend, el daemon inicia sus componentes principales: arranca 5 tareas worker, activa el observador Watchdog (para monitorizar el sistema de archivos) y pone en marcha el servidor de socket. Finalmente, limpia un archivo de socket antiguo y comienza a escuchar activamente en \texttt{/tmp/nez\_watcher.sock}, indicando que el sistema está completamente operativo y listo para monitoriza archivos y recibir peticiones.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Diagramas UML/ss_descarga.png}
+    \caption{Prueba de carga de un archivo por el Watcher.}
+    \label{fig:watcher_upload}
+\end{figure}
+
+La Figura \ref{fig:watcher_upload} ilustra el flujo de operación principal del servicio. En la imagen se observa cómo, tras detectar la creación de un nuevo archivo en el directorio vigilado, uno de los \textit{workers} toma la tarea. A continuación, calcula el checksum SHA-256 del archivo para asegurar su integridad, registra los metadatos en MictlanX y, finalmente, procede con la carga del contenido. La correcta finalización de este proceso, visible en los logs, valida el núcleo funcional del sistema de ingesta y su capacidad para interactuar exitosamente con el VSS.
+
+Una vez validado el flujo de carga, las pruebas se extendieron a los mecanismos de comunicación para la descarga de archivos. Se probó de manera exhaustiva el socket de dominio Unix \cite{POSIX:2018:ipc}, confirmando que el \textit{Watcher} podía recibir y procesar peticiones de otros procesos locales. Posteriormente, se integró el cliente desarrollado en C++ a este flujo. El objetivo era simular el caso de uso completo en el que una aplicación externa (el cliente) solicita la descarga de un archivo o expediente a través del socket. El éxito de estas pruebas confirmó que el \textit{Watcher} no solo actúa como un agente de ingesta, sino también como una puerta de enlace funcional para que otras partes del sistema accedan a los datos almacenados en MictlanX, preparándolo para su integración en un flujo de trabajo o \textit{deployer} más amplio.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=\textwidth]{Diagramas UML/ss_socket.png}
+    \caption{Prueba de comunicación con el Watcher vía Socket Unix.}
+    \label{fig:socket_request}
+\end{figure}
+
+Finalmente, la Figura \ref{fig:socket_request} demuestra la validez del mecanismo de IPC. En ella se aprecia cómo una aplicación cliente establece una conexión con el socket \texttt{/tmp/nez\_watcher.sock} y envía una petición para descargar un archivo específico. El texto de la petición es procesado por el servidor de socket del Watcher, que lo encola para que un \textit{worker} lo gestione. Esta prueba es fundamental, ya que justifica que el Watcher no es un servicio pasivo, sino que puede ser comandado por otras aplicaciones del ecosistema Nez, cumpliendo su rol como una pasarela de servicios de almacenamiento local.
